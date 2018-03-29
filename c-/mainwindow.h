@@ -20,6 +20,8 @@ private slots:
 
     void on_plainTextEdit_textChanged();
 
+    void on_lcdNumber_windowIconTextChanged(const QString &iconText);
+
 private:
     Ui::MainWindow *ui;
 };
