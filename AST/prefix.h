@@ -12,7 +12,9 @@ enum TokenType{
     OpenParentesis,
     ClosedParentesis,
     Number,
-    Reference
+    Reference,
+    Variable,
+    Equal
 };
 
 class prefix
@@ -41,6 +43,7 @@ private:
     ASTNodeType* CreateNodeNumber(double value);
     int GetReference();
     bool Verificar(int tipo,char* text);
+    int GetVariable();
 public:
       prefix(const char* text);
       prefix();

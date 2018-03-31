@@ -9,7 +9,9 @@ enum NodeType{
     OperatorDiv,
     UnaryMinus,
     NumberValue,
-    OperatorRef
+    OperatorRef,
+    VariableValue,
+    OperadorEq
 };
 
 class ASTNodeType

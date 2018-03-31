@@ -7,7 +7,8 @@ SOURCES += main.cpp \
     prefix.cpp \
     astnodetype.cpp \
     ../lab07/ast.cpp \
-    ../lab07/st.cpp
+    ../lab07/st.cpp \
+    parseoascii.cpp
 
 HEADERS += \
     prefix.h \
@@ -16,7 +17,8 @@ HEADERS += \
     ../lab07/spl.lpp \
     ../lab07/spl.ypp \
     ../lab07/st.hpp \
-    ../lab07/value.hpp
+    ../lab07/value.hpp \
+    parseoascii.h
 
 DISTFILES += \
     ../lab07/features.txt \
