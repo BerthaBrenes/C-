@@ -5,7 +5,21 @@
 
 using namespace std;
 
-AstNode *parseo::Expresion()
+parseo::parseo()
+{
+
+}
+
+parseo::parseo(const char *text)
+{
+    m_Text = text;
+    m_Index = 0;
+    cout<<"Constructor"<<text<<endl;
+    Expresion();
+    GetNextToken();
+
+}
+AstNode* parseo::Expresion()
 {
     cout<<"estoy en la primer expresion"<<endl;
     AstNode* tnode = Term();
@@ -13,27 +27,117 @@ AstNode *parseo::Expresion()
     return CreateNode(OperadorPlus,tnode, e1node);
 }
 
-AstNode *parseo::Expresion1()
+AstNode* parseo::Expresion1()
 {
     AstNode* tnode;
     AstNode* e1node;
     switch(m_crtToken.Type){
     case Plus:
+        cout<<"Operador plus en Expresion1"<<endl;
         GetNextToken();
         tnode = Term();
         e1node = Expresion1();
-        cout<<"Operador plus"<<endl;
         return CreateNode(OperadorPlus, e1node,tnode);
      case Minus:
+        cout<<"Operador minus encontrado en Expresion1"<<endl;
         GetNextToken();
         tnode = Term();
         e1node = Expresion1();
-        cout<<"Operador minus encontrado"<<endl;
         return CreateNode(OperadorMinus, e1node, tnode);
     }
     return CreateNodeNumber(0);
 }
+void parseo::GetNextToken()
+{
+    cout<<"entra al token"<<endl;
+    skipSpace();
+    m_crtToken.Value = 0;
+    m_crtToken.Symbol =0;
+    if(m_Text[m_Index] ==  0){
+        cout<<"No hay nada mas en la linea, es el final"<<endl;
+        m_crtToken.Type = EnofText;
+        return;
+    }
+    if(m_Text[m_Index] ==  ';'){
+        cout<<"No hay nada mas en la linea, es el final"<<endl;
+        m_crtToken.Type = EnofText;
+        return;
+    }
+    if(isdigit(m_Text[m_Index])){
+        cout<<"es un digito o valor"<<endl;
+        m_crtToken.Type = Intiger;
+        m_crtToken.Value = GetValue();
+        cout<<"Indice donde se encontro el digito: "<<m_Index<<endl;
+        m_Index++;
+        return;
+    }
+    m_crtToken.Type = Error;
+    switch(m_Text[m_Index]){
+    case '+':
+        m_crtToken.Type = Plus;
+        cout<<"Tipo suma"<<endl;
+        break;
+    case '-':
+        m_crtToken.Type = Minus;
+        cout<<"Tipo Resta"<<endl;
+        break;
+    case '*':
+        m_crtToken.Type = Mul;
+        cout<<"Tipo Multiplicacion"<<endl;
+        break;
+    case '/':
+        m_crtToken.Type = Div;
+        cout<<"Tipo Division"<<endl;
+        break;
+    case '(':
+        m_crtToken.Type = OpenParentesis;
+        cout<<"Parentesis"<<endl;
+        break;
+    case ')':
+        m_crtToken.Type = ClosedParentesis;
+        cout<<"Cierre de parentesis"<<endl;
+        break;
+    case '{':
+        m_crtToken.Type = OpenCorchete;
+        cout<< "Corchete"<<endl;
+        break;
+    case '}':
+        m_crtToken.Type = ClosedCorchete;
+        cout<<"Cierre de corchete"<<endl;
+        break;
+    }
+    if(m_crtToken.Type != Error){
+        cout<<"No entra aqui, sube indice"<<endl;
+        m_crtToken.Symbol = m_Text[m_Index];
+        m_Index++;
+        cout<<"Current indice"<<m_Index<<endl;
+    }
+    else{
+        cout<<"Unexpected Token, error systax"<< m_Text[m_Index]<<"en la posicion"<<m_Index<<endl;
 
+    }
+}
+
+double parseo::GetValue()
+{
+    skipSpace();
+    int index = m_Index;
+    while(isdigit(m_Text[m_Index])){
+        m_Index++;
+        cout<<"buscando donde no hayan digitos"<<endl;
+    }
+    if(m_Text[m_Index] == '.'){
+        cout<<"hay un punto de value"<<endl;
+        m_Index++;
+    }
+    if(m_Index - index == 0){
+        cout<<"Number esperado no fue encontrado"<<endl;
+    }
+    char buffer[32] = {0};
+    memcpy(buffer, &m_Text[m_Index],m_Index- index);
+    cout<<"current index: "<<m_Index<<endl;
+    return atof(buffer);
+}
 AstNode *parseo::Term()
 {
     cout<<"estoy en el primer Term()"<<endl;
@@ -101,10 +205,20 @@ AstNode *parseo::Factor()
 
     default:
     {
-        cout<<"Un token no encontrado "<<m_crtToken.Symbol<<"en la posicion"<< m_Index<<endl;
+        cout<<"Un token no encontrado- "<<m_crtToken.Symbol<<"-en la posicion: "<< m_Index<<endl;
 
      }
    }
+}
+
+void parseo::Match(char expected)
+{
+    if(m_Text[m_Index-1] == expected){
+        GetNextToken();
+    }
+    else{
+        cout<<"Expected Token: "<<expected<<" at position: "<<m_Index<<endl;
+    }
 }
 
 AstNode *parseo::CreateNode(NodeType type, AstNode *left, AstNode *right)
@@ -113,7 +227,7 @@ AstNode *parseo::CreateNode(NodeType type, AstNode *left, AstNode *right)
  node->Type = type;
  node->Left = left;
  node->Right = right;
- cout<<"creo un nodo completo"<<endl;
+ cout<<"creo un nodo completo el nodo es de tipo"<<node->Type<<endl;
  return node;
 }
 
@@ -144,115 +258,8 @@ void parseo::skipSpace()
     }
 }
 
-double parseo::GetValue()
-{
-    skipSpace();
-    int index = m_Index;
-    while(isdigit(m_Text[m_Index])){
-        m_Index++;
-        cout<<"buscando donde no hayan digitos"<<endl;
-    }
-    if(m_Text[m_Index] == '.'){
-        cout<<"hay un punto de value"<<endl;
-        m_Index++;
-    }
-    if(m_Index - index == 0){
-        cout<<"Number esperado no fue encontrado"<<endl;
-    }
-    char buffer[32] = {0};
-    memcpy(buffer, &m_Text[m_Index],m_Index- index);
 
-    return atof(buffer);
-}
 
-void parseo::Match(char expected)
-{
-    if(m_Text[m_Index-1] == expected){
-        GetNextToken();
-    }
-    else{
-        cout<<"Expected Token"<<expected<<" at position "<<m_Index<<endl;
-    }
-}
 
-void parseo::GetNextToken()
-{
-    cout<<"entra al token"<<endl;
-    skipSpace();
-    m_crtToken.Value = 0;
-    m_crtToken.Symbol =0;
-    if(m_Text[m_Index] ==  0){
-        cout<<"No hay nada mas en la linea, es el final"<<endl;
-        m_crtToken.Type = EnofText;
-        return;
-    }
-    if(m_Text[m_Index] ==  ';'){
-        cout<<"No hay nada mas en la linea, es el final"<<endl;
-        m_crtToken.Type = EnofText;
-        return;
-    }
-    if(isdigit(m_Text[m_Index])){
-        cout<<"es un digito o valor"<<endl;
-        m_crtToken.Type = Intiger;
-        m_crtToken.Value = GetValue();
 
-        return;
-    }
-    m_crtToken.Type = Error;
-    switch(m_Text[m_Index]){
-    case '+':
-        m_crtToken.Type = Plus;
-        cout<<"Tipo suma"<<endl;
-        break;
-    case '-':
-        m_crtToken.Type = Minus;
-        cout<<"Tipo Resta"<<endl;
-        break;
-    case '*':
-        m_crtToken.Type = Mul;
-        cout<<"Tipo Multiplicacion"<<endl;
-        break;
-    case '/':
-        m_crtToken.Type = Div;
-        cout<<"Tipo Division"<<endl;
-        break;
-    case '(':
-        m_crtToken.Type = OpenParentesis;
-        cout<<"Parentesis"<<endl;
-        break;
-    case ')':
-        m_crtToken.Type = ClosedParentesis;
-        cout<<"Cierre de parentesis"<<endl;
-        break;
-    case '{':
-        m_crtToken.Type = OpenCorchete;
-        cout<< "Corchete"<<endl;
-        break;
-    case '}':
-        m_crtToken.Type = ClosedCorchete;
-        cout<<"Cierre de corchete"<<endl;
-        break;
-    }
-    if(m_crtToken.Type != Error){
-        m_crtToken.Symbol = m_Text[m_Index];
-        m_Index++;
-    }
-    else{
-        cout<<"Unexpected Token, error systax"<< m_Text[m_Index]<<"en la posicion"<<m_Index<<endl;
 
-    }
-}
-
-parseo::parseo()
-{
-
-}
-
-parseo::parseo(const char *text)
-{
-    m_Text = text;
-    m_Index = 0;
-    cout<<"Constructor"<<text<<endl;
-    GetNextToken();
-    Expresion();
-}

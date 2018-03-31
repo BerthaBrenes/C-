@@ -2,7 +2,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <string.h>
-#include <parserexception.h>
+
 using namespace std;
 
 
@@ -12,7 +12,6 @@ prefix::prefix(const char *text)
    m_Index = 0;
    cout<<"constructor"<<endl;
    GetNextToken();
-
    Expression();
 }
 
@@ -23,6 +22,7 @@ prefix::prefix()
 
 ASTNodeType* prefix::Expression()
 {
+    cout<<"se supone que debia entrar aqui"<<endl;
     ASTNodeType* tnode = Term();
     ASTNodeType* e1node = Expression1();
     return CreateNode(OperatorPlus, tnode, e1node);
@@ -38,14 +38,20 @@ void prefix::SkipWhiteSpaces()
 ASTNodeType* prefix::Expression1(){
     ASTNodeType* tnode;
     ASTNodeType* e1node;
-
+    cout<<"Expresion 1"<<endl;
     switch (m_crtToken.Type) {
     case Plus:
+        cout<<"Operador suma "<<endl;
         GetNextToken();
         tnode = Term();
         e1node = Expression1();
         return CreateNode(OperatorPlus, e1node, tnode);
-
+    case Reference:
+        cout<<"Operador ref "<<endl;
+        GetNextToken();
+        tnode = Term();
+        e1node = Expression1();
+        return CreateNode(OperatorRef,e1node,tnode);
     case Minus:
         GetNextToken();
         tnode = Term();
@@ -67,9 +73,16 @@ void prefix::GetNextToken()
        return;
    }
    if(isdigit(m_Text[m_Index])){
-       cout<<"segundo if"<<endl;
+       cout<<"encontro un numero"<<endl;
        m_crtToken.Type = Number;
        m_crtToken.Value = GetNumber();
+       return;
+   }
+   if(islower(m_Text[m_Index])){
+       cout<<"encontro un operador"<<endl;
+       m_crtToken.Type = Reference;
+       cout<<"atof valor: "<< GetReference() <<endl;
+       //m_crtToken.Value = atof(GetReference());
        return;
    }
    m_crtToken.Type = Error;
@@ -81,6 +94,10 @@ void prefix::GetNextToken()
    case '-':
        m_crtToken.Type = Minus;
        cout<<"minus"<<endl;
+       break;
+   case '=':
+       m_crtToken.Type = Reference;
+       cout<< "referencia a copia"<<endl;
        break;
    case '*':
        m_crtToken.Type = Mul;
@@ -94,6 +111,7 @@ void prefix::GetNextToken()
        break;
    case ')':
        m_crtToken.Type = ClosedParentesis;
+
        break;
    }
    if(m_crtToken.Type != Error){
@@ -104,6 +122,133 @@ void prefix::GetNextToken()
 
        cout<< "Unexpected token "<<m_Text[m_Index]<< " at position "<< m_Index<< endl;
    }
+}
+int prefix::GetReference()
+{
+    SkipWhiteSpaces();
+    cout<<"obtener letra"<<endl;
+    int index = m_Index;
+    char buffer[6];
+    int indice = 0;
+    while(islower(m_Text[m_Index])){
+        buffer[indice] = m_Text[m_Index];
+
+        indice++;
+        m_Index++;
+
+    }
+    cout<<"valor de buffer: "<<buffer[0]<<endl;
+
+    switch(buffer[0]){
+    case 'f':{
+        cout<<"float"<<endl;
+        if(Verificar(0, buffer)){
+           return 0;
+        }else{
+            break;
+        }
+    }
+    case 'd':
+        {
+            cout<<"double"<<endl;
+            if(Verificar(1, buffer)){
+                return 1;
+            }else{
+                break;
+                }
+            }
+
+    case 'i':{
+        cout<<"int"<<endl;
+        if(Verificar(2, buffer)){
+            return 2;
+        }else{
+            break;
+            }
+        }
+
+    case 'l':{
+        cout<<"long"<<endl;
+        if(Verificar(3, buffer)){
+            return 3;
+        }else{
+            break;
+            }
+        }
+
+    case 'c':{
+        cout<<"char"<<endl;
+        if(Verificar(4, buffer)){
+            return 4;
+        }else{
+            break;
+            }
+        }
+
+    }
+
+    if(m_Index - index == 0){
+       cout<<"letter expected but not found"<<m_Index<<endl;
+    }
+}
+bool prefix::Verificar(int tipo, char* text){
+    cout<<"verifcar"<<endl;
+    switch(tipo){
+    case 0:{
+        char str1[] = "float";
+        for(int i = 0;text[i];i++){
+            if(text[i] != str1[i]){
+                cout<<"error de sintaxis"<<endl;
+                return false;
+            }
+        }
+        cout<<"palabra verifcada"<<endl;
+        return true;
+    }
+    case 1:{
+        char str1[] = "double";
+        for(int i = 0;text[i];i++){
+            if(text[i] != str1[i]){
+                cout<<"error de sintaxis"<<endl;
+                return false;
+            }
+        }
+        cout<<"palabra verifcada"<<endl;
+        return true;
+    }
+    case 2:{
+        char str1[4] = "int";
+        for(int i = 0;str1[i];i++){
+            if(text[i] != str1[i]){
+                cout<<"error de sintaxis"<<endl;
+                return false;
+            }
+        }
+        cout<<"palabra verifcada"<<endl;
+        return true;
+    }
+    case 3:{
+        char str1[] = "long";
+        for(int i = 0;text[i];i++){
+            if(text[i] != str1[i]){
+                cout<<"error de sintaxis"<<endl;
+                return false;
+            }
+        }
+        cout<<"palabra verifcada"<<endl;
+        return true;
+    }
+    case 4:{
+        char str1[] = "char";
+        for(int i = 0;text[i];i++){
+            if(text[i] != str1[i]){
+                cout<<"error de sintaxis"<<endl;
+                return false;
+            }
+        }
+        cout<<"palabra verifcada"<<endl;
+        return true;
+    }
 }
 
 double prefix::GetNumber()
@@ -123,8 +268,8 @@ double prefix::GetNumber()
        cout<<"Number expected but not found"<<m_Index<<endl;
     }
     char buffer[32] = {0};
-    memcpy(buffer,&m_Text[m_Index], m_Index- index);
-
+    memcpy(buffer,&m_Text[m_Index], m_Index-index);
+    cout<<"valor de buffer: "<<buffer<<"Valor del retorno"<<atof(buffer)<<endl;
     return atof(buffer);
 }
 
@@ -218,3 +363,13 @@ ASTNodeType *prefix::CreateNodeNumber(double value)
     node->Value = value;
     return node;
 }
+/**
+ * Para la deteccion de operadores, solo voy a tomar la
+ * primera letra de la referencia porque no logro detentar el operando completo
+ * float => f =>0
+ * double => d =>1
+ * int => i =>2;
+ * long => l =>3
+ * char => c =>4
+ * struct => s =>5
+ **/

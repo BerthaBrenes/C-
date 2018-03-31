@@ -11,7 +11,8 @@ enum TokenType{
     EndOfText,
     OpenParentesis,
     ClosedParentesis,
-    Number
+    Number,
+    Reference
 };
 
 class prefix
@@ -25,8 +26,6 @@ class prefix
     Token m_crtToken;
     const char* m_Text;
     int m_Index;
-public:
-
 private:
     ASTNodeType* Expression();
     void SkipWhiteSpaces();
@@ -40,6 +39,8 @@ private:
     ASTNodeType* CreateNode(NodeType type, ASTNodeType* left, ASTNodeType* right);
     ASTNodeType* CreateUnaryNode(ASTNodeType* left);
     ASTNodeType* CreateNodeNumber(double value);
+    int GetReference();
+    bool Verificar(int tipo,char* text);
 public:
       prefix(const char* text);
       prefix();

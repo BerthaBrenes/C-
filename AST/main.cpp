@@ -1,11 +1,11 @@
-#include "mainwindow.h"
-#include <QApplication>
+#include <iostream>
+#include "prefix.h"
+
+using namespace std;
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
-
-    return a.exec();
+    cout << "Hello World!" << endl;
+    prefix("int A = 1*2+3");
+    return 0;
 }

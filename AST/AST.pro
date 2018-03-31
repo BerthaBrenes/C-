@@ -12,7 +12,6 @@ SOURCES += main.cpp \
 HEADERS += \
     prefix.h \
     astnodetype.h \
-    parserexception.h \
     ../lab07/ast.hpp \
     ../lab07/spl.lpp \
     ../lab07/spl.ypp \
