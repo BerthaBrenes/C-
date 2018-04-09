@@ -1,6 +1,7 @@
 #ifndef PREFIX_H
 #define PREFIX_H
 #include "astnodetype.h"
+#include "factorydepends.h"
 
 enum TokenType{
     Error,
@@ -14,7 +15,8 @@ enum TokenType{
     Number,
     Reference,
     Variable,
-    Equal
+    Equal,
+
 };
 
 class prefix
@@ -44,6 +46,7 @@ private:
     int GetReference();
     bool Verificar(int tipo,char* text);
     int GetVariable();
+    factorydepends *ptrDepends;
 public:
       prefix(const char* text);
       prefix();

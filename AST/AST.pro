@@ -8,7 +8,15 @@ SOURCES += main.cpp \
     astnodetype.cpp \
     ../lab07/ast.cpp \
     ../lab07/st.cpp \
-    parseoascii.cpp
+    parseoascii.cpp \
+    intiger.cpp \
+    chars.cpp \
+    longer.cpp \
+    floating.cpp \
+    doubles.cpp \
+    structs.cpp \
+    factorydepends.cpp \
+    prueba.cpp
 
 HEADERS += \
     prefix.h \
@@ -18,7 +26,15 @@ HEADERS += \
     ../lab07/spl.ypp \
     ../lab07/st.hpp \
     ../lab07/value.hpp \
-    parseoascii.h
+    parseoascii.h \
+    intiger.h \
+    chars.h \
+    longer.h \
+    floating.h \
+    doubles.h \
+    structs.h \
+    factorydepends.h \
+    prueba.h
 
 DISTFILES += \
     ../lab07/features.txt \

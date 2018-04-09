@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "parseoascii.h"
+#include "factorydepends.h"
 
 using namespace std;
 
@@ -14,6 +15,7 @@ prefix::prefix(const char *text)
     cout<<"constructor"<<endl;
     GetNextToken();
     Expression();
+
 }
 
 prefix::prefix()
@@ -201,6 +203,7 @@ int prefix::GetReference()
     case 'i':{
         cout<<"int"<<endl;
         if(Verificar(2, buffer)){
+            ptrDepends->crear(intigerr);
             return 2;
         }else{
             break;
@@ -210,6 +213,7 @@ int prefix::GetReference()
     case 'l':{
         cout<<"long"<<endl;
         if(Verificar(3, buffer)){
+            ptrDepends->crear(longerr);
             return 3;
         }else{
             break;
