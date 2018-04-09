@@ -17,6 +17,7 @@ class factorydepends
 {
 public:
     factorydepends();
+    virtual void send(char* name, int value) = 0;
     static factorydepends* crear(tipo tip);
 };
 

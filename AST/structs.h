@@ -6,6 +6,7 @@ class structs: public factorydepends
 {
 public:
     structs();
+    void send(char* name,int value);
 };
 
 #endif // STRUCT_H

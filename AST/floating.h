@@ -6,6 +6,7 @@ class floating: public factorydepends
 {
 public:
     floating();
+    void send(char* name,int value);
 };
 
 #endif // FLOATING_H

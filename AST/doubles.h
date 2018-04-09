@@ -6,6 +6,7 @@ class doubles: public factorydepends
 {
 public:
     doubles();
+    void send(char* name,int value);
 };
 
 #endif // DOUBLES_H

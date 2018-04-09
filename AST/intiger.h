@@ -6,6 +6,7 @@ class intiger: public factorydepends
 {
 public:
     intiger();
+    void send(char* name,int value);
 };
 
 #endif // INTIGER_H

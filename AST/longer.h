@@ -6,6 +6,7 @@ class longer: public factorydepends
 {
 public:
     longer();
+    void send(char* name,int value);
 };
 
 #endif // LONGER_H
