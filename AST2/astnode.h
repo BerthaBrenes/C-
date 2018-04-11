@@ -7,9 +7,11 @@ enum NodeType{
     OperadorMinus,
     OperadorMul,
     OperadorDiv,
-    UniryMinus,
+    UnaryMinus,
     NumberValue,
-    OperadorEqueal
+    OperatorRef,
+    VariableValue,
+    OperadorEq
 
 };
 

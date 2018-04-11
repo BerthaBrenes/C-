@@ -5,8 +5,10 @@ CONFIG -= qt
 
 SOURCES += main.cpp \
     parseo.cpp \
-    astnode.cpp
+    astnode.cpp \
+    parseoascii.cpp
 
 HEADERS += \
     parseo.h \
-    astnode.h
+    astnode.h \
+    parseoascii.h

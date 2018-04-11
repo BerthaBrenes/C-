@@ -1,29 +1,20 @@
 #ifndef PARSEO_H
 #define PARSEO_H
 #include "astnode.h"
+
 enum TokenType{
     Error,
     Plus,
     Minus,
     Mul,
     Div,
-    EnofText,
+    EndOfText,
     OpenParentesis,
     ClosedParentesis,
-    OpenCorchete,
-    ClosedCorchete,
     Number,
-    Intiger,
-    String,
-    Float,
-    Char,
-    Struct,
-    For,
-    While,
-    IF,
-    Else,
-    Long,
-    Double
+    Reference,
+    Variable,
+    Equal
 };
 
 class parseo
@@ -49,9 +40,13 @@ private:
     double GetValue();
     void Match(char expected);
     void GetNextToken();
+    int GetReference();
+    bool Verificar(int tipo,char* text);
+    int GetVariable();
 public:
-    parseo();
     parseo(const char* text);
+    parseo();
+
 };
 
 #endif // PARSEO_H

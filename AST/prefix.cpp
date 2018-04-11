@@ -14,7 +14,8 @@ prefix::prefix(const char *text)
     m_Index = 0;
     cout<<"constructor"<<endl;
     GetNextToken();
-    Expression();
+
+    //Expression();
 
 }
 
@@ -73,7 +74,14 @@ ASTNodeType* prefix::Expression1(){
         tnode = Term();
         e1node = Expression1();
         return CreateNode(OperadorEq, e1node,tnode);
+    case Declaration:
+        cout<<"Operador Declaracion"<<endl;
+        GetNextToken();
+        tnode = Term();
+        e1node = Expression1();
+        return CreateNode(OperatorDecla, e1node,tnode);
     }
+
 
    return CreateNodeNumber(0);
 }
@@ -85,8 +93,9 @@ void prefix::GetNextToken()
     m_crtToken.Symbol = 0;
     cout<< "Get next token"<<endl;
     if(m_Text[m_Index]==0){
-        cout<<"primer if, index igual a 0"<<endl;
+        cout<<"Indice igual a 0, fin de la linea"<<endl;
         m_crtToken.Type = EndOfText;
+        NodoLine->Print();
         return;
     }
     if(isdigit(m_Text[m_Index])){
@@ -94,13 +103,17 @@ void prefix::GetNextToken()
         m_crtToken.Type = Number;
         m_crtToken.Value = GetNumber();
         cout<<"Valor del numero"<<m_crtToken.Value<<endl;
+        NodoLine->Right = CreateNodeNumber(m_crtToken.Value);
+        NodoLine->Right->Type = VariableValue;
+        GetNextToken();
         return;
     }
     if(islower(m_Text[m_Index])){
         cout<<"encontro un operador"<<endl;
         m_crtToken.Type = Reference;
         m_crtToken.Value = GetReference();
-        cout<<"valor"<<m_crtToken.Value<<endl;
+        cout<<"valor:"<<m_crtToken.Value<<endl;
+        GetNextToken();
         return;
     }
     if(isupper(m_Text[m_Index])){
@@ -108,6 +121,9 @@ void prefix::GetNextToken()
         m_crtToken.Type = Variable;
         m_crtToken.Value = GetVariable();
         cout<<"valor"<<m_crtToken.Value<<endl;
+        NodoLine->Left = CreateNodeNumber(m_crtToken.Value);
+        NodoLine->Left->Type = VariableName;
+        GetNextToken();
         return;
     }
     m_crtToken.Type = Error;
@@ -123,6 +139,8 @@ void prefix::GetNextToken()
     case '=':
         m_crtToken.Type = Equal;
         cout<< "referencia a copia"<<endl;
+        m_Index++;
+        GetNextToken();
         break;
     case '*':
         m_crtToken.Type = Mul;
@@ -132,16 +150,28 @@ void prefix::GetNextToken()
         m_crtToken.Type = Div;
         break;
     case '(':
+    {
+        cout<<"Corchete"<<endl;
         m_crtToken.Type = OpenParentesis;
+        NodoLine->Right = CreateNode(VariableValue);
+        Match(')');
+        GetNextToken();
         break;
+    }
     case ')':
         m_crtToken.Type = ClosedParentesis;
-
+        break;
+    case '{':
+        m_crtToken.Type = OpenCor;
+        break;
+    case '}':
+        m_crtToken.Type = ClosedCor;
         break;
     }
     if(m_crtToken.Type != Error){
         m_crtToken.Symbol = m_Text[m_Index];
         m_Index++;
+
     }
     else{
 
@@ -149,9 +179,8 @@ void prefix::GetNextToken()
     }
 }
 int prefix::GetVariable(){
-    cout<<"obtener varibale"<<endl;
+    cout<<"obtener variable"<<endl;
     SkipWhiteSpaces();
-    cout<<"obtener letra"<<endl;
     int index = m_Index;
     char buffer[32] = {0};
     int indice = 0;
@@ -164,7 +193,7 @@ int prefix::GetVariable(){
     if(m_Index - index == 0){
         cout<<"letter expected but not found"<<m_Index<<endl;
     }
-    cout<<"el mismo puto problema: "<<buffer<<endl;
+    cout<<"el nombre de la variables es: "<<buffer<<endl;
     return parseoASCII(buffer).convert();
 }
 
@@ -186,6 +215,8 @@ int prefix::GetReference()
     case 'f':{
         cout<<"float"<<endl;
         if(Verificar(0, buffer)){
+            ptrDepends->crear(floatingg);
+            NodoLine->Type = OperatorRef;
             return 0;
         }else{
             break;
@@ -195,6 +226,9 @@ int prefix::GetReference()
     {
         cout<<"double"<<endl;
         if(Verificar(1, buffer)){
+            ptrDepends->crear(doubless);
+            NodoLine->Type = OperatorRef;
+            NodoLine->Value = 1.0;
             return 1;
         }else{
             break;
@@ -204,6 +238,8 @@ int prefix::GetReference()
         cout<<"int"<<endl;
         if(Verificar(2, buffer)){
             ptrDepends->crear(intigerr);
+            NodoLine->Type = OperatorRef;
+            NodoLine->Value = 2.0;
             return 2;
         }else{
             break;
@@ -214,6 +250,8 @@ int prefix::GetReference()
         cout<<"long"<<endl;
         if(Verificar(3, buffer)){
             ptrDepends->crear(longerr);
+            NodoLine->Type = OperatorRef;
+            NodoLine->Value = 3.0;
             return 3;
         }else{
             break;
@@ -223,12 +261,26 @@ int prefix::GetReference()
     case 'c':{
         cout<<"char"<<endl;
         if(Verificar(4, buffer)){
+            ptrDepends->crear(charss);
+            NodoLine->Type = OperatorRef;
+            NodoLine->Value = 4.0;
             return 4;
         }else{
             break;
         }
     }
-
+    case 's':{
+        cout<<"struct"<<endl;
+        if(Verificar(5,buffer)){
+            ptrDepends->crear(structss);
+            m_crtToken.Type = Declaration;
+            NodoLine->Type = OperatorDecla;
+            NodoLine->Value =5.0;
+            return 5;
+        }else{
+            break;
+        }
+    }
     }
 
     if(m_Index - index == 0){
@@ -293,6 +345,17 @@ bool prefix::Verificar(int tipo, char* text){
         cout<<"palabra verifcada"<<endl;
         return true;
     }
+    case 5:{
+        char str1[] = "struct";
+        for(int i = 0; text[i]; i++){
+            if(text[i] != str1[i]){
+                cout<<"error de sintaxis"<<endl;
+                return false;
+            }
+        }
+        cout<<"Palabra Verificada"<<endl;
+        return true;
+    }
     }
 }
     double prefix::GetNumber()
@@ -304,18 +367,23 @@ bool prefix::Verificar(int tipo, char* text){
         int indice =0;
         while(isdigit(m_Text[m_Index])){
             buffer[indice] = m_Text[m_Index];
-            cout<<"valor buffer"<<buffer[indice]<<endl;
             indice++;
             m_Index++;
         }
         if(m_Text[m_Index]== '.'){
             cout<<"if de punto"<<endl;
+            buffer[m_Index] = '*';
             m_Index++;
+            while(isdigit(m_Text[m_Index])){
+                buffer[indice] = m_Text[m_Index];
+                indice++;
+                m_Index++;
+            }
         }
         if(m_Index - index == 0){
             cout<<"Number expected but not found"<<m_Index<<endl;
         }
-       // memcpy(buffer,&m_Text[m_Index], m_Index-index);
+       //memcpy(buffer,&m_Text[m_Index], m_Index-index);
         double result = parseoASCII().charToint(buffer);
         cout<<"valor buffer"<<result<<endl;
         return result;
@@ -345,6 +413,7 @@ bool prefix::Verificar(int tipo, char* text){
             t1node = Term1();
             return CreateNode(OperatorDiv,t1node, fnode);
         }
+
         return CreateNodeNumber(1);
     }
 
@@ -356,6 +425,11 @@ bool prefix::Verificar(int tipo, char* text){
             GetNextToken();
             node = Expression();
             Match(')');
+            return node;
+        case OpenCor:
+            GetNextToken();
+            node = Expression();
+            Match('}');
             return node;
         case Minus:
             GetNextToken();
@@ -375,14 +449,26 @@ bool prefix::Verificar(int tipo, char* text){
         }
     }
 
-    void prefix::Match(char expected)
+   void prefix::Match(char expected)
     {
-        if(m_Text[m_Index-1] == expected){
-            GetNextToken();
+        m_Index++;
+        char buffer[32] = {0};
+        int indice = 0;
+        while(m_Text[m_Index] != expected){
+           buffer[indice] = m_Text[m_Index];
+           cout<<"valor buffer: "<<buffer[m_Index]<<endl;
+           m_Index++;
+           indice++;
         }
-        else{
 
-            cout<<"Expected token "<< expected<< "at position "<< m_Index<< endl;
+        if(m_Text[m_Index] == 0){
+            cout<<"Error sintactico, debe cerrar con las comillas"<<endl;
+        }
+        if(m_Text[m_Index] == expected){
+            cout<<"Valor del buffer: "<<buffer<<endl;
+            m_Index++;
+            NodoLine->Right->value = buffer;
+            cout<<"se cayo?"<<endl;
         }
     }
 
@@ -392,6 +478,15 @@ bool prefix::Verificar(int tipo, char* text){
         node->Type = type;
         node->Left = left;
         node->Right = right;
+        return node;
+    }
+
+    ASTNodeType *prefix::CreateNode(NodeType type)
+    {
+        ASTNodeType* node = new ASTNodeType;
+        node->Type = type;
+        node->Left = nullptr;
+        node->Right = nullptr;
         return node;
     }
 
@@ -407,8 +502,15 @@ bool prefix::Verificar(int tipo, char* text){
     ASTNodeType *prefix::CreateNodeNumber(double value)
     {
         ASTNodeType* node = new ASTNodeType;
-        node->Type = NumberValue;
         node->Value = value;
+        return node;
+    }
+
+    ASTNodeType *prefix::CreateNodeChar(char *value)
+    {
+        ASTNodeType* node = new ASTNodeType;
+        node->Type = VariableName;
+//        node->Value = value;
         return node;
     }
     /**

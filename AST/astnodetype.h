@@ -11,7 +11,10 @@ enum NodeType{
     NumberValue,
     OperatorRef,
     VariableValue,
-    OperadorEq
+    VariableName,
+    OperadorEq,
+    OperatorDecla,
+
 };
 
 class ASTNodeType
@@ -19,9 +22,12 @@ class ASTNodeType
 public:
     NodeType Type;
     double Value;
+    char* value;
     ASTNodeType* Left;
     ASTNodeType* Right;
     ASTNodeType();
+    void Print();
+    void Print(ASTNodeType* root);
     ~ASTNodeType(){
         delete Right;
         delete Left;

@@ -3,10 +3,11 @@
 #include "parseoascii.h"
 using namespace std;
 
-int main(int argc, char *argv[])
+int main()
 {
     cout << "Hello World!" << endl;
-    prefix("int A = 6");
+    prefix("char DD = (Hola)");
+    //prefix("struct{");
     //cout<<parseoASCII("asfdg").charToint("352")<<endl;
     return 0;
 }
