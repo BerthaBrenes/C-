@@ -13,24 +13,29 @@ factorydepends::factorydepends()
 
 }
 
-factorydepends *factorydepends::crear(tipo tip)
+factorydepends *factorydepends::crear(ASTNodeType* node)
 {
-    if(tip == structss){
-        return new structs();
-    }
-    if(tip == intigerr){
-        return new intiger();
-    }
-    if(tip == charss){
-        return new Chars();
-    }
-    if(tip == floatingg){
-        return new floating();
-    }
-    if(tip == doubless){
-        return new doubles();
-    }
-    if(tip == longerr){
-        return new longer();
+    double p = node->Value;
+    int y = int(p);
+    switch (y) {
+    case 0:
+        cout<<"float"<<endl;
+        break;
+        floating();
+    case 1:
+        cout<<"double"<<endl;
+        break;
+    case 2:
+        cout<<"int"<<endl;
+        break;
+    case 3:
+        cout<<"long"<<endl;
+        break;
+    case 4:
+        cout<<"Char"<<endl;
+        break;
+    case 5:
+        cout<<"struct"<<endl;
+        break;
     }
 }

@@ -4,6 +4,10 @@
 #include <string.h>
 #include "parseoascii.h"
 #include "factorydepends.h"
+#include "fstream"
+#include <string>
+#include <cstring>
+#include <sstream>
 
 using namespace std;
 
@@ -15,21 +19,11 @@ prefix::prefix(const char *text)
     cout<<"constructor"<<endl;
     GetNextToken();
 
-    //Expression();
-
 }
 
 prefix::prefix()
 {
 
-}
-
-ASTNodeType* prefix::Expression()
-{
-    cout<<"se supone que debia entrar aqui"<<endl;
-    ASTNodeType* tnode = Term();
-    ASTNodeType* e1node = Expression1();
-    return CreateNode(OperatorPlus, tnode, e1node);
 }
 
 void prefix::SkipWhiteSpaces()
@@ -38,52 +32,6 @@ void prefix::SkipWhiteSpaces()
         cout<<"whitespace, index "<<endl;
         m_Index++;
     }
-}
-ASTNodeType* prefix::Expression1(){
-    ASTNodeType* tnode;
-    ASTNodeType* e1node;
-    cout<<"Expresion 1"<<endl;
-    switch (m_crtToken.Type) {
-    case Plus:
-        cout<<"Operador suma "<<endl;
-        GetNextToken();
-        tnode = Term();
-        e1node = Expression1();
-        return CreateNode(OperatorPlus, e1node, tnode);
-    case Reference:
-        cout<<"Operador ref "<<endl;
-        GetNextToken();
-        tnode = Term();
-        e1node = Expression1();
-        return CreateNode(OperatorRef,e1node,tnode);
-    case Minus:
-        cout<<"Operador Minus"<<endl;
-        GetNextToken();
-        tnode = Term();
-        e1node = Expression1();
-        return CreateNode(OperatorMinus, e1node, tnode);
-    case Variable:
-        cout<<"Operador Variable"<<endl;
-        GetNextToken();
-        tnode = Term();
-        e1node = Expression1();
-        return CreateNode(VariableValue, e1node,tnode);
-    case Equal:
-        cout<<"Operator Equal"<<endl;
-        GetNextToken();
-        tnode = Term();
-        e1node = Expression1();
-        return CreateNode(OperadorEq, e1node,tnode);
-    case Declaration:
-        cout<<"Operador Declaracion"<<endl;
-        GetNextToken();
-        tnode = Term();
-        e1node = Expression1();
-        return CreateNode(OperatorDecla, e1node,tnode);
-    }
-
-
-   return CreateNodeNumber(0);
 }
 
 void prefix::GetNextToken()
@@ -95,6 +43,29 @@ void prefix::GetNextToken()
     if(m_Text[m_Index]==0){
         cout<<"Indice igual a 0, fin de la linea"<<endl;
         m_crtToken.Type = EndOfText;
+        ifstream ficheroEntrada;
+        string cadena;
+        ficheroEntrada.open("Struc.txt",ios::in);
+        if(!ficheroEntrada.fail()){
+            while(!ficheroEntrada.eof()){
+                getline(ficheroEntrada,cadena);
+                cout<<cadena<<endl;
+                if(cadena == "}"){
+                    cout<<"referencias nuevas"<<endl;
+                    NodoLine->Print();
+                    ptrDepends->crear(NodoLine);
+                    return;
+                }
+            }
+            ficheroEntrada.close();
+            ofstream escrituraArc;
+            escrituraArc.open("Struc.txt",ios::ate);
+            escrituraArc<<"valor del nodo"<<endl;
+            escrituraArc<<to_strin(NodoLine->Value)<<endl;
+            escrituraArc.close();
+        }else{
+            cout<<"error al abrir archivos"<<endl;
+        }
         NodoLine->Print();
         return;
     }
@@ -120,9 +91,7 @@ void prefix::GetNextToken()
         cout<<"Encontro un variable"<<endl;
         m_crtToken.Type = Variable;
         m_crtToken.Value = GetVariable();
-        cout<<"valor"<<m_crtToken.Value<<endl;
-        NodoLine->Left = CreateNodeNumber(m_crtToken.Value);
-        NodoLine->Left->Type = VariableName;
+
         GetNextToken();
         return;
     }
@@ -162,10 +131,22 @@ void prefix::GetNextToken()
         m_crtToken.Type = ClosedParentesis;
         break;
     case '{':
+    {
         m_crtToken.Type = OpenCor;
+        cout<<"corchete, abriendo struct"<<endl;
+        m_Index++;
+        GetNextToken();
         break;
+    }
     case '}':
+        cout<<"corchete, cerrando struct"<<endl;
+        ofstream escrituraArc;
+        escrituraArc.open("Struc.txt",ios::ate);
+        escrituraArc<<"}"<<endl;
+        escrituraArc.close();
         m_crtToken.Type = ClosedCor;
+        m_Index++;
+        GetNextToken();
         break;
     }
     if(m_crtToken.Type != Error){
@@ -184,7 +165,7 @@ int prefix::GetVariable(){
     int index = m_Index;
     char buffer[32] = {0};
     int indice = 0;
-    while(isupper(m_Text[m_Index])){
+    while(isalnum(m_Text[m_Index])){
         buffer[indice] = m_Text[m_Index];
         indice++;
         m_Index++;
@@ -194,8 +175,24 @@ int prefix::GetVariable(){
         cout<<"letter expected but not found"<<m_Index<<endl;
     }
     cout<<"el nombre de la variables es: "<<buffer<<endl;
+     NodoLine->Left = CreateNodeNumber(0);
+     NodoLine->Left->Type = VariableName;
+     NodoLine->Left->value = buffer;
     return parseoASCII(buffer).convert();
 }
+
+string prefix::to_strin(double x)
+{
+    ostringstream ss;
+    ss<<x;
+    return ss.str();
+}
+
+ASTNodeType *prefix::ReturNode()
+{
+    return NodoLine;
+}
+
 
 int prefix::GetReference()
 {
@@ -215,7 +212,6 @@ int prefix::GetReference()
     case 'f':{
         cout<<"float"<<endl;
         if(Verificar(0, buffer)){
-            ptrDepends->crear(floatingg);
             NodoLine->Type = OperatorRef;
             return 0;
         }else{
@@ -226,7 +222,6 @@ int prefix::GetReference()
     {
         cout<<"double"<<endl;
         if(Verificar(1, buffer)){
-            ptrDepends->crear(doubless);
             NodoLine->Type = OperatorRef;
             NodoLine->Value = 1.0;
             return 1;
@@ -237,7 +232,6 @@ int prefix::GetReference()
     case 'i':{
         cout<<"int"<<endl;
         if(Verificar(2, buffer)){
-            ptrDepends->crear(intigerr);
             NodoLine->Type = OperatorRef;
             NodoLine->Value = 2.0;
             return 2;
@@ -249,7 +243,6 @@ int prefix::GetReference()
     case 'l':{
         cout<<"long"<<endl;
         if(Verificar(3, buffer)){
-            ptrDepends->crear(longerr);
             NodoLine->Type = OperatorRef;
             NodoLine->Value = 3.0;
             return 3;
@@ -261,7 +254,6 @@ int prefix::GetReference()
     case 'c':{
         cout<<"char"<<endl;
         if(Verificar(4, buffer)){
-            ptrDepends->crear(charss);
             NodoLine->Type = OperatorRef;
             NodoLine->Value = 4.0;
             return 4;
@@ -272,7 +264,6 @@ int prefix::GetReference()
     case 's':{
         cout<<"struct"<<endl;
         if(Verificar(5,buffer)){
-            ptrDepends->crear(structss);
             m_crtToken.Type = Declaration;
             NodoLine->Type = OperatorDecla;
             NodoLine->Value =5.0;
@@ -388,67 +379,6 @@ bool prefix::Verificar(int tipo, char* text){
         cout<<"valor buffer"<<result<<endl;
         return result;
     }
-
-    ASTNodeType *prefix::Term()
-    {
-        ASTNodeType* fnode = Factor();
-        ASTNodeType* t1node = Term1();
-        return CreateNode(OperatorMul, fnode, t1node);
-    }
-
-    ASTNodeType *prefix::Term1()
-    {
-        ASTNodeType* fnode;
-        ASTNodeType* t1node;
-        switch(m_crtToken.Type){
-        case Mul:
-            GetNextToken();
-            fnode =Factor();
-            t1node = Term1();
-            return CreateNode(OperatorMul,t1node,fnode);
-
-        case Div:
-            GetNextToken();
-            fnode = Factor();
-            t1node = Term1();
-            return CreateNode(OperatorDiv,t1node, fnode);
-        }
-
-        return CreateNodeNumber(1);
-    }
-
-    ASTNodeType *prefix::Factor()
-    {
-        ASTNodeType* node;
-        switch(m_crtToken.Type){
-        case OpenParentesis:
-            GetNextToken();
-            node = Expression();
-            Match(')');
-            return node;
-        case OpenCor:
-            GetNextToken();
-            node = Expression();
-            Match('}');
-            return node;
-        case Minus:
-            GetNextToken();
-            node = Factor();
-            return CreateUnaryNode(node);
-        case Number:
-        {
-            double value = m_crtToken.Value;
-            GetNextToken();
-            return CreateNodeNumber(value);
-        }
-        default:{
-
-            cout<<"Unexpected Token "<<m_crtToken.Symbol<<"at position "<<m_Index<<endl;
-
-        }
-        }
-    }
-
    void prefix::Match(char expected)
     {
         m_Index++;
@@ -467,8 +397,7 @@ bool prefix::Verificar(int tipo, char* text){
         if(m_Text[m_Index] == expected){
             cout<<"Valor del buffer: "<<buffer<<endl;
             m_Index++;
-            NodoLine->Right->value = buffer;
-            cout<<"se cayo?"<<endl;
+            NodoLine->Right->value = "puti";
         }
     }
 
@@ -490,14 +419,7 @@ bool prefix::Verificar(int tipo, char* text){
         return node;
     }
 
-    ASTNodeType *prefix::CreateUnaryNode(ASTNodeType *left)
-    {
-        ASTNodeType* node = new ASTNodeType;
-        node->Type = UnaryMinus;
-        node->Left = left;
-        node->Right = nullptr;
-        return node;
-    }
+
 
     ASTNodeType *prefix::CreateNodeNumber(double value)
     {
@@ -513,6 +435,7 @@ bool prefix::Verificar(int tipo, char* text){
 //        node->Value = value;
         return node;
     }
+
     /**
  * Para la deteccion de operadores, solo voy a tomar la
  * primera letra de la referencia porque no logro detentar el operando completo

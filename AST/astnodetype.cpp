@@ -14,15 +14,14 @@ ASTNodeType::ASTNodeType()
 void ASTNodeType::Print()
 {
     cout<<"Valor raiz"<< Value<<endl;
-    if(Left->Value){
-        cout<<"Valor de izquierda"<< Left->Value<<endl;
+    cout<<"Valor de izquierda"<< Left->Value<<endl;
+    cout<<"Valor de derecha"<< Right->Value<<endl;
+    cout<<"Valor derecha char"<<Right->value<<endl;
+    if(Left->value)
+    {
+        cout<<"Valor de izquierda"<<Left->value<<endl;
     }
-    if(Right->Value){
-        cout<<"Valor de derecha"<< Right->Value<<endl;
-    }
-    if(Right->value){
-        cout<<"Valor de dereche"<<Right->value<<endl;
-    }
+
 }
 
 void ASTNodeType::Print(ASTNodeType *root)
