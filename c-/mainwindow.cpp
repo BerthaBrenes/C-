@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <iostream>
+#include <client.cpp>
+#include <QInputDialog>
 using namespace std;
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -10,6 +12,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QString text = ui->plainTextEdit->toPlainText();
     ui->plainTextEdit->backgroundRole();
     ui->label->update();
+    PORT = QInputDialog :: getInt(this,"Puerto", "Ingrese el puerto del servidor");
+    setPort(PORT);
 
 }
 MainWindow::~MainWindow()
@@ -37,4 +41,17 @@ void MainWindow::on_plainTextEdit_textChanged()
 void MainWindow::on_lcdNumber_windowIconTextChanged(const QString &iconText)
 {
     ui->lcdNumber->display(iconText);
+}
+
+void MainWindow::on_pushButton_pressed()
+{
+    Update();
+}
+
+void MainWindow::Update()
+{
+
+
+    cout << Execute("{\"Label\" : {\"Type\" : \"int\", \"Size\" : 15524, \"Value\" : \"obj1\"}}") << endl;
+
 }

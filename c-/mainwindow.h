@@ -22,8 +22,12 @@ private slots:
 
     void on_lcdNumber_windowIconTextChanged(const QString &iconText);
 
+    void on_pushButton_pressed();
+
 private:
     Ui::MainWindow *ui;
+    int PORT;
+    void Update ();
 };
 
 #endif // MAINWINDOW_H
