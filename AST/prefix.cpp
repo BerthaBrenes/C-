@@ -42,25 +42,23 @@ void prefix::GetNextToken()
     m_crtToken.Symbol = 0;
     cout<< "Get next token"<<endl;
     if(m_Text[m_Index]==0){
-        cout<<"Indice igual a 0, fin de la linea"<<endl;
+        cout<<"Indice igual a 0, fin de la linea en struct"<<endl;
         m_crtToken.Type = EndOfText;
-        ifstream ficheroEntrada;
         string cadena;
-        ficheroEntrada.open("Struc.txt",ios::in);
-        if(!ficheroEntrada.fail()){
-            while(!ficheroEntrada.eof()){
-                getline(ficheroEntrada,cadena);
+        ls.open("boolean.txt",ios::in);
+        if(!ls.fail()){
+            while(!ls.eof()){
+                getline(ls,cadena);
                 cout<<cadena<<endl;
-                if(cadena == "}"){
+                if(cadena == "true"){
                     cout<<"referencias nuevas"<<endl;
-                    NodoLine->Print();
-                    //factorydepends *ptrDepends = NULL;
-                    interfaces *ptrDepends = factorydepends::Get()->CreateInterface(NodoLine);
-                    ptrDepends->Data(NodoLine);
+                    //NodoLine->Print();
+                    //interfaces *ptrDepends = factorydepends::Get()->CreateInterface(NodoLine);
+                    //ptrDepends->Data(NodoLine);
                     return;
                 }
             }
-            ficheroEntrada.close();
+            ls.close();
             ofstream escrituraArc;
             escrituraArc.open("Struc.txt",ios::ate);
             escrituraArc<<"valor del nodo"<<endl;
@@ -72,6 +70,7 @@ void prefix::GetNextToken()
         NodoLine->Print();
         return;
     }
+
     if(isdigit(m_Text[m_Index])){
         cout<<"encontro un numero"<<endl;
         m_crtToken.Type = Number;
@@ -94,12 +93,40 @@ void prefix::GetNextToken()
         cout<<"Encontro un variable"<<endl;
         m_crtToken.Type = Variable;
         m_crtToken.Value = GetVariable();
-
         GetNextToken();
         return;
     }
     m_crtToken.Type = Error;
     switch (m_Text[m_Index]) {
+    case ';':{
+         m_crtToken.Type = EndOfText;
+         cout<<"final de una linea normal de codigo"<<endl;
+         string cadena;
+         ls.open("boolean.txt",ios::in);
+         if(!ls.fail()){
+             while(!ls.eof()){
+                 getline(ls,cadena);
+                 cout<<cadena<<endl;
+                 if(cadena == "true"){
+                     cout<<"interfaces para struct"<<endl;
+                     NodoLine->Print();
+                     interfaces *ptrDepends = factorydepends::Get()->CreateInterface(NodoLine);
+                     ptrDepends->saveStruct(NodoLine);
+                     return;
+                 }
+                 if(cadena== "false"){
+                     cout<<"struc cerrado"<<endl;
+                     NodoLine->Print();
+                     cout<<"aqui creo que no llego"<<endl;
+                     interfaces *ptrDep = factorydepends::Get()->CreateInterface(NodoLine);
+                     ptrDep->Data(NodoLine);
+                     return;
+                 }
+             }
+             ls.close();
+
+    }
+    }
     case '+':
         m_crtToken.Type = Plus;
         cout<<"plus"<<endl;
@@ -258,14 +285,31 @@ int prefix::GetReference()
 
     case 'c':{
         cout<<"char"<<endl;
-        if(Verificar(4, buffer)){
-            NodoLine->Type = OperatorRef;
-            NodoLine->Value = 4.0;
-            return 4;
-        }else{
-            break;
+        if(buffer[1] == 'h')
+        {
+            if(Verificar(4, buffer)){
+                NodoLine->Type = OperatorRef;
+                NodoLine->Value = 4.0;
+                return 4;
+            }else{
+                break;
+            }
+        }if(buffer[1]== 'l'){
+            cout<<"class"<<endl;
+            if(Verificar(6,buffer)){
+                //m_crtToken.Type = OperatorRef;
+                NodoLine->Type = OperatorRef;
+                NodoLine->Value = 6.0;
+                NodoLine->Right= CreateNodeNumber(0);
+                NodoLine->Type = OperatorRef;
+                NodoLine->Right->Value = 0.0;
+                return 6;
+            }else{
+                break;
+            }
         }
     }
+
     case 's':{
         cout<<"struct"<<endl;
         if(Verificar(5,buffer)){
@@ -277,6 +321,7 @@ int prefix::GetReference()
             break;
         }
     }
+
     }
 
     if(m_Index - index == 0){
@@ -352,6 +397,16 @@ bool prefix::Verificar(int tipo, char* text){
         cout<<"Palabra Verificada"<<endl;
         return true;
     }
+    case 6:
+        char str1[] = "class";
+        for(int i = 0; text[i]; i++){
+            if(text[i] != str1[i]){
+                cout<<"error de sintaxis"<<endl;
+                return false;
+            }
+        }
+        cout<<"Palabra Verificada"<<endl;
+        return true;
     }
 }
     double prefix::GetNumber()

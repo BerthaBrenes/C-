@@ -8,6 +8,7 @@ class interfaces{
     virtual void print()= 0;
     virtual void Free() = 0;
     virtual void Data(ASTNodeType* node) =0;
+    virtual void saveStruct(ASTNodeType* node) =0;
     typedef interfaces* (__stdcall *CreateInterfaceFn)(void);
 };
 #endif // INTERFACES_H

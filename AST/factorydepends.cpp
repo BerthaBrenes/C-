@@ -17,6 +17,7 @@ factorydepends::factorydepends()
     Register(3,&Longer::Create);
     Register(4,&Chars::Create);
     Register(5,&Structs::Create);
+    Register(6,&Structs::Create);
 }
 void factorydepends::Register(const double interfaceType, interfaces::CreateInterfaceFn pfnCreate){
     m_FactoryMap[interfaceType] = pfnCreate;

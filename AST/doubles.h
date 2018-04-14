@@ -4,6 +4,7 @@
 #include "interfaces.h"
 #include "astnodetype.h"
 #include "json.hpp"
+#include "fstream"
 
 using json = nlohmann::json;
 class doubles: public interfaces
@@ -27,6 +28,19 @@ public:
          dataServer["value"] = node->Right->Value;
          dataServer["size"] = 8;
          cout<<dataServer.dump()<<endl;
+     }
+     virtual void saveStruct(ASTNodeType* node){
+         ofstream es;
+         es.open("prueba.json",ios::app);
+         cout<<"nodo tipo en struct:"<<node->Value<<endl;
+         json dataServer;
+         dataServer["type"] = "double";
+         dataServer["name"] = node->Left->value;
+         dataServer["value"] = node->Right->Value;
+         dataServer["size"] = 1;
+         cout<<dataServer.dump()<<endl;
+         es<<dataServer<<endl;
+         es.close();
      }
     void Free() {
         delete this;
