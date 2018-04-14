@@ -137,16 +137,18 @@ void prefix::GetNextToken()
     {
         m_crtToken.Type = OpenCor;
         cout<<"corchete, abriendo struct"<<endl;
+        es.open("boolean.txt",ios::out);
+        es<<"true"<<endl;
+        es.close();
         m_Index++;
         GetNextToken();
         break;
     }
     case '}':
         cout<<"corchete, cerrando struct"<<endl;
-        ofstream escrituraArc;
-        escrituraArc.open("Struc.txt",ios::ate);
-        escrituraArc<<"}"<<endl;
-        escrituraArc.close();
+        es.open("boolean.txt",ios::out);
+        es<<"false"<<endl;
+        es.close();
         m_crtToken.Type = ClosedCor;
         m_Index++;
         GetNextToken();
