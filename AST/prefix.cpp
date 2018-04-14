@@ -8,6 +8,7 @@
 #include <string>
 #include <cstring>
 #include <sstream>
+#include <interfaces.h>
 
 using namespace std;
 
@@ -53,7 +54,9 @@ void prefix::GetNextToken()
                 if(cadena == "}"){
                     cout<<"referencias nuevas"<<endl;
                     NodoLine->Print();
-                    ptrDepends->crear(NodoLine);
+                    //factorydepends *ptrDepends = NULL;
+                    interfaces *ptrDepends = factorydepends::Get()->CreateInterface(NodoLine);
+                    ptrDepends->Data(NodoLine);
                     return;
                 }
             }
@@ -382,11 +385,11 @@ bool prefix::Verificar(int tipo, char* text){
    void prefix::Match(char expected)
     {
         m_Index++;
-        char buffer[32] = {0};
+        char varas[9] = {0};
         int indice = 0;
         while(m_Text[m_Index] != expected){
-           buffer[indice] = m_Text[m_Index];
-           cout<<"valor buffer: "<<buffer[m_Index]<<endl;
+           varas[indice] = m_Text[m_Index];
+           cout<<"valor buffer: "<<varas[indice]<<endl;
            m_Index++;
            indice++;
         }
@@ -395,9 +398,11 @@ bool prefix::Verificar(int tipo, char* text){
             cout<<"Error sintactico, debe cerrar con las comillas"<<endl;
         }
         if(m_Text[m_Index] == expected){
-            cout<<"Valor del buffer: "<<buffer<<endl;
+            cout<<"Valor del buffer: "<<varas<<endl;
+            NodoLine->Right->value = varas;
             m_Index++;
-            NodoLine->Right->value = "puti";
+            return;
+
         }
     }
 

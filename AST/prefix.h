@@ -54,7 +54,7 @@ private:
     bool Verificar(int tipo,char* text);
     int GetVariable();
     string to_strin(double x);
-    factorydepends *ptrDepends;
+    //factorydepends *ptrDepends = NULL;
 
 public:
       prefix(const char* text);

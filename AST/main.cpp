@@ -7,9 +7,9 @@ using namespace std;
 int main()
 {
     cout << "Hello World!" << endl;
-    ASTNodeType* node =prefix("char Dee4 = (uhy)").ReturNode();
+    //ASTNodeType* node =prefix("double Dee4 = 8").ReturNode();
 
-    //prefix("struct{");
+     prefix("struct{");
     //cout<<parseoASCII("asfdg").charToint("352")<<endl;
     return 0;
 }
