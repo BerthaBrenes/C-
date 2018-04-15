@@ -116,7 +116,7 @@ void prefix::GetNextToken()
                  }
                  if(cadena== "false"){
                      cout<<"struc cerrado"<<endl;
-                     NodoLine->Print();
+                     //NodoLine->Print();
                      cout<<"aqui creo que no llego"<<endl;
                      interfaces *ptrDep = factorydepends::Get()->CreateInterface(NodoLine);
                      ptrDep->Data(NodoLine);

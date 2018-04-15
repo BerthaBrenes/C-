@@ -17,7 +17,7 @@ public:
          cout<<"name: "<<name<<" value:"<<value<<endl;
     }
      void print(){
-         cout<<"name:pruebas na mas "<<endl;
+         cout<<"nam chars "<<endl;
     }
     void Data(ASTNodeType* node){
         cout<<"nodo tipo wohoo:"<<node->Value<<endl;

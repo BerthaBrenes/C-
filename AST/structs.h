@@ -20,24 +20,26 @@ public:
          cout<<"name: "<<name<<" value:"<<value<<endl;
     }
      void print(){
-         cout<<"name:pruebas na mas "<<endl;
+         cout<<"se supone que estoy en struct "<<endl;
     }
     void Data(ASTNodeType* node){
+        json dataServer;
+        dataServer["type"] = "struct";
+        dataServer["name"] = node->Left->value;
+        dataServer["size"] = 2;
         char cadena[128];
         ifstream ls;
         ls.open("prueba.json",ios::in);
         while(!ls.eof()) {
            ls >> cadena;
-           cout << cadena << endl;
+           dataServer["value"].operator +=(cadena);
         }
         ls.close();
+        ofstream esf;
+        esf.open("prueba.json",ios::out |ios::trunc);
+        esf.close();
         cout<<"nodo tipo:"<<node->Value<<endl;
-        json dataServer;
-        dataServer["type"] = "struct";
-        dataServer["name"] = node->Left->value;
-        dataServer["value"] = node->Right->Value;
-        dataServer["size"] = cadena;
-        cout<<dataServer.dump()<<endl;
+        cout<<dataServer<<endl;
     }
     void Free() {
         delete this;
@@ -46,7 +48,7 @@ public:
         ofstream es;
         es.open("prueba.json",ios::app);
         cout<<"nodo tipo en struct:"<<node->Value<<endl;
-        cout<<"aqui deberia tan siquiera entrar"
+        cout<<"aqui deberia tan siquiera entrar"<<endl;
 
     }
     static interfaces* __stdcall Create(){
