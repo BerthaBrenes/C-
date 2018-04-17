@@ -52,7 +52,6 @@ void prefix::GetNextToken()
                 cout<<cadena<<endl;
                 if(cadena == "true"){
                     cout<<"referencias nuevas"<<endl;
-
                     return;
                 }
             }
