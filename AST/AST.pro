@@ -7,12 +7,6 @@ SOURCES += main.cpp \
     prefix.cpp \
     astnodetype.cpp \
     parseoascii.cpp \
-    intiger.cpp \
-    chars.cpp \
-    longer.cpp \
-    floating.cpp \
-    doubles.cpp \
-    structs.cpp \
     factorydepends.cpp \
     prueba.cpp
 
@@ -20,13 +14,16 @@ HEADERS += \
     prefix.h \
     astnodetype.h \
     parseoascii.h \
-    intiger.h \
     chars.h \
-    longer.h \
-    floating.h \
     doubles.h \
-    structs.h \
     factorydepends.h \
-    prueba.h
+    prueba.h \
+    json.hpp \
+    interfaces.h \
+    intermediario.h \
+    floating.h \
+    intiger.h \
+    longer.h \
+    structs.h
 
 DISTFILES += \

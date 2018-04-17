@@ -1,41 +1,33 @@
 #include "factorydepends.h"
-#include "intiger.h"
 #include "doubles.h"
 #include "chars.h"
-#include "longer.h"
-#include "structs.h"
 #include "floating.h"
+#include "structs.h"
+#include "intiger.h"
+#include "longer.h"
 #include "prueba.h"
-
+#include "interfaces.h"
+#include "astnodetype.h"
 
 factorydepends::factorydepends()
 {
-
+    Register(0,&Floating::Create);
+    Register(1, &doubles::Create);
+    Register(2,&Intiger::Create);
+    Register(3,&Longer::Create);
+    Register(4,&Chars::Create);
+    Register(5,&Structs::Create);
+    Register(6,&Structs::Create);
 }
-
-factorydepends *factorydepends::crear(ASTNodeType* node)
-{
-    double p = node->Value;
-    int y = int(p);
-    switch (y) {
-    case 0:
-        cout<<"float"<<endl;
-        break;
-        floating();
-    case 1:
-        cout<<"double"<<endl;
-        break;
-    case 2:
-        cout<<"int"<<endl;
-        break;
-    case 3:
-        cout<<"long"<<endl;
-        break;
-    case 4:
-        cout<<"Char"<<endl;
-        break;
-    case 5:
-        cout<<"struct"<<endl;
-        break;
+void factorydepends::Register(const double interfaceType, interfaces::CreateInterfaceFn pfnCreate){
+    m_FactoryMap[interfaceType] = pfnCreate;
+}
+interfaces *factorydepends::CreateInterface(const ASTNodeType* interface){
+    FactoryMap::iterator it = m_FactoryMap.find(interface->Value);
+    if(it != m_FactoryMap.end()){
+       return it->second();
     }
+    return NULL;
 }
+
+

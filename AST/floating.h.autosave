@@ -1,12 +1,13 @@
-#ifndef STRINGS_H
-#define STRINGS_H
+#ifndef FLOATING_H
+#define FLOATING_H
 #include "factorydepends.h"
 #include "interfaces.h"
 #include "astnodetype.h"
 #include "json.hpp"
 #include "fstream"
+
 using json = nlohmann::json;
-class Chars :public interfaces
+class Floating :public interfaces
 {
 public:
      void send(char* name,char* value) {
@@ -17,15 +18,15 @@ public:
          cout<<"name: "<<name<<" value:"<<value<<endl;
     }
      void print(){
-         cout<<"nam chars "<<endl;
+         cout<<"name:prufloats "<<endl;
     }
     void Data(ASTNodeType* node){
-        cout<<"nodo tipo wohoo:"<<node->Value<<endl;
+        cout<<"nodo tipo:"<<node->Value<<endl;
         json dataServer;
-        dataServer["type"] = "Char";
+        dataServer["type"] = "float";
         dataServer["name"] = node->Left->value;
-        dataServer["value"] = node->Right->value;
-        dataServer["size"] = 1;
+        dataServer["value"] = node->Right->Value;
+        dataServer["size"] = 4;
         cout<<dataServer.dump()<<endl;
     }
     void Free() {
@@ -36,17 +37,16 @@ public:
         es.open("prueba.json",ios::app);
         cout<<"nodo tipo en struct:"<<node->Value<<endl;
         json dataServer;
-        dataServer["type"] = "Char";
+        dataServer["type"] = "float";
         dataServer["name"] = node->Left->value;
-        dataServer["value"] = node->Right->value;
+        dataServer["value"] = node->Right->Value;
         dataServer["size"] = 1;
         cout<<dataServer.dump()<<endl;
         es<<dataServer<<endl;
         es.close();
     }
     static interfaces* __stdcall Create(){
-        return new Chars();
+        return new Floating();
     }
 };
-
-#endif // STRINGS_H
+#endif // FLOATING_H

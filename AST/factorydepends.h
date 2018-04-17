@@ -2,16 +2,35 @@
 #define FACTORYDEPENDS_H
 #include <iostream>
 #include "astnodetype.h"
+#include "interfaces.h"
+#include "map"
+#include "astnodetype.h"
+
 using namespace std;
 
 
 
 class factorydepends
 {
-public:
+private:
     factorydepends();
-    virtual void send(char* name, int value) = 0;
-    static factorydepends* crear(ASTNodeType* nodo);
+    factorydepends(const factorydepends &){}
+    factorydepends &operator = (const factorydepends &){
+            return *this;
+        }
+    typedef map<int,interfaces::CreateInterfaceFn> FactoryMap;
+    FactoryMap m_FactoryMap;
+public:
+    ~factorydepends(){
+     m_FactoryMap.clear();
+    }
+    static factorydepends *Get(){
+        static factorydepends instance;
+        return &instance;
+    }
+    void Register(const double interfaceType, interfaces::CreateInterfaceFn pfnCreate);
+    interfaces *CreateInterface(const ASTNodeType* interfaceType);
 };
+
 
 #endif // FACTORYDEPENDS_H
