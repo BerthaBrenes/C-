@@ -15,9 +15,14 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     tcpclient.cpp \
-    client.cpp
+    client.cpp \
+    json.hpp
 
 HEADERS  += mainwindow.h \
-    tcpclient.h
+    tcpclient.h \
+    json_copy.hpp
 
 FORMS    += mainwindow.ui
+
+DISTFILES += \
+    uml_c-.qmodel

@@ -20,4 +20,5 @@ SOURCES += server.cpp \
 
 HEADERS += \
     tcpserver.h \
-    orderram.h
+    orderram.h \
+    json.hpp

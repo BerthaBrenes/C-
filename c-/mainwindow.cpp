@@ -3,6 +3,8 @@
 #include <iostream>
 #include <client.cpp>
 #include <QInputDialog>
+#include <json.hpp>
+using json = nlohmann::json;
 using namespace std;
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -51,7 +53,11 @@ void MainWindow::on_pushButton_pressed()
 void MainWindow::Update()
 {
 
+    json J;
+    J["type"] = 3;
+    J["value"] = 3.14;
+    J["label"] = "Número PI";
 
-    cout << Execute("{\"Label\" : {\"Type\" : \"int\", \"Size\" : 15524, \"Value\" : \"obj1\"}}") << endl;
+    cout << Execute(J.dump()) << endl;
 
 }
