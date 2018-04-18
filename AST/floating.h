@@ -1,4 +1,4 @@
-Flo#ifndef FLOATING_H
+#ifndef FLOATING_H
 #define FLOATING_H
 #include "factorydepends.h"
 #include "interfaces.h"
