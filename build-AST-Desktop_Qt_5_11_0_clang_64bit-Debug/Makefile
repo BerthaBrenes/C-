@@ -56,14 +56,16 @@ SOURCES       = ../AST/main.cpp \
 		../AST/parseoascii.cpp \
 		../AST/factorydepends.cpp \
 		../AST/prueba.cpp \
-		../AST/desicion.cpp 
+		../AST/desicion.cpp \
+		../AST/operaciones.cpp 
 OBJECTS       = main.o \
 		prefix.o \
 		astnodetype.o \
 		parseoascii.o \
 		factorydepends.o \
 		prueba.o \
-		desicion.o
+		desicion.o \
+		operaciones.o
 DIST          = ../../../../Qt/5.11.0/clang_64/mkspecs/features/spec_pre.prf \
 		../../../../Qt/5.11.0/clang_64/mkspecs/qdevice.pri \
 		../../../../Qt/5.11.0/clang_64/mkspecs/features/device_config.prf \
@@ -262,13 +264,15 @@ DIST          = ../../../../Qt/5.11.0/clang_64/mkspecs/features/spec_pre.prf \
 		intiger.h \
 		longer.h \
 		structs.h \
-		desicion.h ../AST/main.cpp \
+		desicion.h \
+		operaciones.h ../AST/main.cpp \
 		../AST/prefix.cpp \
 		../AST/astnodetype.cpp \
 		../AST/parseoascii.cpp \
 		../AST/factorydepends.cpp \
 		../AST/prueba.cpp \
-		../AST/desicion.cpp
+		../AST/desicion.cpp \
+		../AST/operaciones.cpp
 QMAKE_TARGET  = AST
 DESTDIR       = 
 TARGET        = AST
@@ -705,7 +709,8 @@ main.o: ../AST/main.cpp ../AST/prefix.h \
 		../AST/astnodetype.h \
 		../AST/factorydepends.h \
 		../AST/interfaces.h \
-		../AST/parseoascii.h
+		../AST/parseoascii.h \
+		../AST/desicion.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../AST/main.cpp
 
 prefix.o: ../AST/prefix.cpp ../AST/prefix.h \
@@ -738,8 +743,18 @@ prueba.o: ../AST/prueba.cpp ../AST/prueba.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o prueba.o ../AST/prueba.cpp
 
 desicion.o: ../AST/desicion.cpp ../AST/desicion.h \
-		../AST/astnodetype.h
+		../AST/astnodetype.h \
+		../AST/prefix.h \
+		../AST/factorydepends.h \
+		../AST/interfaces.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o desicion.o ../AST/desicion.cpp
+
+operaciones.o: ../AST/operaciones.cpp ../AST/operaciones.h \
+		../AST/prefix.h \
+		../AST/astnodetype.h \
+		../AST/factorydepends.h \
+		../AST/interfaces.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o operaciones.o ../AST/operaciones.cpp
 
 ####### Install
 

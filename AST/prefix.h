@@ -55,6 +55,7 @@ private:
     int GetVariable();
     string to_strin(double x);
     //factorydepends *ptrDepends = NULL;
+
     ofstream es;
     ifstream ls;
 
