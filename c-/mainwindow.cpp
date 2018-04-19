@@ -10,6 +10,7 @@
 #include <QStringList>
 #include <QDebug>
 #include <QWidget>
+#include <QMutableStringListIterator>
 using json = nlohmann::json;
 using namespace std;
 MainWindow::MainWindow(QWidget *parent) :
@@ -20,10 +21,18 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->label->update();
     ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui -> pushButton_3->setEnabled(false);
+
     while (true){
-        PORT = QInputDialog :: getInt(this,"Puerto", "Ingrese el puerto del servidor");
-        if (PORT == 0) {
-            QMessageBox::warning(this, tr("Error"), tr("Entry a port"));
+        bool ok;
+        PORT = QInputDialog :: getInt(this,"Puerto", "Ingrese el puerto del servidor\nEntre 5500 y 9000",0,5500,9000,0,&ok);
+        if (!ok){
+            QMessageBox::StandardButton reply;
+            reply = QMessageBox::question(this,"Quit?","You want exit?",QMessageBox::Yes|QMessageBox::No);
+            if (reply == QMessageBox::No){
+                QMessageBox::warning(this, tr("Error"), tr("Entry a port"));
+            } else {
+                exit(0);
+            }
         } else {
             break;
         }
@@ -101,11 +110,17 @@ void MainWindow::Update()
 //    }
     text = ui->widget->toPlainText();
     lines = text.split("\n");
+    for (int i = 0; i<lines.size();i++){
+        if (lines[i] == ""){
+            lines.removeAt(i);
+        }
+    }
     currentline = 0;
     ui->widget->setReadOnly(true);
     ui->pushButton->setEnabled(false);
     ui -> pushButton_3->setEnabled(true);
     ui->pushButton_2->setEnabled(false);
+
 }
 
 
@@ -113,7 +128,7 @@ void MainWindow::on_pushButton_3_pressed()
 {
 
 
-    cout << currentline <<  " " << lines.size() << endl;
+
     if (currentline ==lines.size()){
 
         QMessageBox :: information(this,tr("Finish reading"), tr ("Ready debug"));
@@ -122,12 +137,15 @@ void MainWindow::on_pushButton_3_pressed()
         ui->pushButton->setEnabled(true);
         ui -> pushButton_3->setEnabled(false);
         ui->pushButton_2->setEnabled(true);
+        ui->tableWidget->setRowCount(0);
+
     } else {
         QString lin = lines[currentline];
         string toparser = lin.toStdString();
-        const char* p =toparser.c_str();
-        ui->widget->moveCursor(QTextCursor::Down);
-        cout << p << endl;
+
+
+        char* linea_actual = (char*)toparser.c_str();
+
         currentline++;
     }
 
@@ -137,4 +155,21 @@ void MainWindow::on_pushButton_3_pressed()
 void MainWindow::on_pushButton_2_pressed()
 {
     ui->widget->clear();
+}
+
+void MainWindow::on_actionChange_Port_triggered()
+{
+    while (true){
+        bool ok;
+        int cu = PORT;
+        PORT = QInputDialog :: getInt(this,"Puerto", "Ingrese el puerto del servidor\nEntre 5500 y 9000",0,5500,9000,0,&ok);
+        if (!ok){
+            PORT=cu;
+            break;
+        } else {
+            break;
+        }
+    }
+    setPort(PORT);
+    ui->statusBar->showMessage ("Initialized on port: "+QString::number(PORT));
 }

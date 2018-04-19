@@ -205,8 +205,6 @@ void* TYPES (json info){
     }
     }
 }
-
-
 string getDirection(void *direction) {
     // Obtener dirección de memoria
     ostringstream oss;
@@ -215,48 +213,21 @@ string getDirection(void *direction) {
     cout << "This is direction: " <<d << endl;
     return d;
 }
-json creator (string type, float value, int size, string label, int countr, int offset){
-    json uno;
-    uno ["type"] = type;
-    uno ["value"] = value;
-    uno ["size"] = size;
-    uno ["label"] = label;
-    uno ["countr"] = countr;
-    float *var1 = (float*)TYPES(uno);
-    uno ["offset"] = offset;
-    uno ["direction"] = getDirection(var1);
-    uno.erase ("label");
-    Var[label] = uno;
-}
-json creator (string type, string value, int size, string label, int countr, int offset){
-    json uno;
-    uno ["type"] = type;
-    uno ["value"] = value;
-    uno ["size"] = size;
-    uno ["label"] = label;
-    uno ["countr"] = countr;
-    float *var1 = (float*)TYPES(uno);
-    uno ["offset"] = offset;
-    uno ["direction"] = getDirection(var1);
-    uno.erase ("label");
-    Var[label] = uno;
-}
+
 int main(int argc, char *argv[]) {
         QCoreApplication a(argc, argv);
-
-        cout << "Ingrese el Puerto" << endl;
+        while (true){
+        cout << "Ingrese el Puerto entre 5500 y 9000" << endl;
         cin >> PORT;
+        if (PORT >= 5500 && PORT <= 9000) break;
+        }
         cout << "Ingrese el tamaño de la memoria en Bytes " << endl;
         cin >> SIZE;
+        cout << "| Puerto: " << PORT << " | " << "Memory: " << SIZE << " Bytes |" << endl;
 
         // Unico Malloc de la memoria
         Memorymap = (void*) malloc (SIZE);
         Currentposition = Memorymap;
-
-        //Solictud de memoria
-
-
-
 
 
         // Ejecución del Servidor con el loop

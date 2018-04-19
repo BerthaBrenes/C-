@@ -11,14 +11,16 @@ TCPClient tcp;
 int PORT;
 bool ready = false;
 
-
-void setPort (int port){
-    PORT = port;
-}
 void sig_exit(int s)
 {
     tcp.exit();
 	exit(0);
+}
+void setPort (int port){
+    signal(SIGINT, sig_exit);
+    ready = false;
+    PORT = port;
+
 }
 json Execute(string Data)
 {

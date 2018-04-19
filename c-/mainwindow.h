@@ -30,6 +30,8 @@ private slots:
 
     void on_pushButton_2_pressed();
 
+    void on_actionChange_Port_triggered();
+
 private:
     Ui::MainWindow *ui;
 
