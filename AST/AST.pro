@@ -8,7 +8,9 @@ SOURCES += main.cpp \
     astnodetype.cpp \
     parseoascii.cpp \
     factorydepends.cpp \
-    prueba.cpp
+    prueba.cpp \
+    desicion.cpp \
+    operaciones.cpp
 
 HEADERS += \
     prefix.h \
@@ -24,6 +26,8 @@ HEADERS += \
     floating.h \
     intiger.h \
     longer.h \
-    structs.h
+    structs.h \
+    desicion.h \
+    operaciones.h
 
 DISTFILES += \
