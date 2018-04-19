@@ -10,7 +10,9 @@ SOURCES += main.cpp \
     factorydepends.cpp \
     prueba.cpp \
     desicion.cpp \
-    operaciones.cpp
+    operaciones.cpp \
+    tcpclient.cpp \
+    client.cpp
 
 HEADERS += \
     prefix.h \
@@ -28,6 +30,7 @@ HEADERS += \
     longer.h \
     structs.h \
     desicion.h \
-    operaciones.h
+    operaciones.h \
+    tcpclient.h
 
 DISTFILES += \
