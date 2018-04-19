@@ -5,6 +5,11 @@
 #include <QInputDialog>
 #include <json.hpp>
 #include <typeinfo>
+#include <QMessageBox>
+#include <QTextBlock>
+#include <QStringList>
+#include <QDebug>
+#include <QWidget>
 using json = nlohmann::json;
 using namespace std;
 MainWindow::MainWindow(QWidget *parent) :
@@ -12,15 +17,23 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    QString text = ui->plainTextEdit->toPlainText();
-    ui->plainTextEdit->backgroundRole();
     ui->label->update();
     ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    PORT = QInputDialog :: getInt(this,"Puerto", "Ingrese el puerto del servidor");
+    ui -> pushButton_3->setEnabled(false);
+    while (true){
+        PORT = QInputDialog :: getInt(this,"Puerto", "Ingrese el puerto del servidor");
+        if (PORT == 0) {
+            QMessageBox::warning(this, tr("Error"), tr("Entry a port"));
+        } else {
+            break;
+        }
+    }
     setPort(PORT);
+    ui->statusBar->showMessage ("Initialized on port: "+QString::number(PORT));
+    }
 
 
-}
+
 bool MainWindow :: Validate (json info){
     if (info["value"].is_string()) return true;
     else return false;
@@ -53,17 +66,6 @@ void MainWindow::on_label_windowIconTextChanged(const QString &iconText)
    ui->label->setText(iconText);
 }
 
-void MainWindow::on_plainTextEdit_textChanged()
-{
-    on_label_windowIconTextChanged(ui->plainTextEdit->documentTitle());
-    on_lcdNumber_windowIconTextChanged(QString::number(ui->plainTextEdit->cursorWidth()));
-
-    if(ui->plainTextEdit->toPlainText() == "int"){
-        cout<<"vale 2 bytes"<<endl;
-        on_label_windowIconTextChanged("int");
-        ui->plainTextEdit->setCursorWidth(2);
- }
-}
 
 void MainWindow::on_lcdNumber_windowIconTextChanged(const QString &iconText)
 {
@@ -79,23 +81,60 @@ void MainWindow::Update()
 {
 
 
-    json J;
-    J["type"] = "float";
-    J["value"] = 3.14;
-    J["label"] = "Número PI";
-    J["size"] = 4;
-    J["countr"] = 1;
-    TableRe(Execute(J.dump()));
-    json J2;
-    J2["type"] = "float";
-    J2["value"] = "Número PI";
-    J2["label"] = "Número";
-    J2["size"] = 4;
-    J2["countr"] = 1;
-    TableRe(Execute(J2.dump()));
+//    json J;
+//    J["type"] = "float";
+//    J["value"] = 3.14;
+//    J["label"] = "Número PI";
+//    J["size"] = 4;
+//    J["countr"] = 1;
+//    json J2;
+//    J2["type"] = "float";
+//    J2["value"] = "Número PI";
+//    J2["label"] = "Número";
+//    J2["size"] = 4;
+//    J2["countr"] = 1;
+//    try {
+//        TableRe(Execute(J.dump()));
+//        TableRe(Execute(J2.dump()));
+//    } catch (...) {
+//        QMessageBox :: warning(this, tr("Send failed") , tr ("Server is not initialized"));
+//    }
+    text = ui->widget->toPlainText();
+    lines = text.split("\n");
+    currentline = 0;
+    ui->widget->setReadOnly(true);
+    ui->pushButton->setEnabled(false);
+    ui -> pushButton_3->setEnabled(true);
+    ui->pushButton_2->setEnabled(false);
+}
 
+
+void MainWindow::on_pushButton_3_pressed()
+{
+
+
+    cout << currentline <<  " " << lines.size() << endl;
+    if (currentline ==lines.size()){
+
+        QMessageBox :: information(this,tr("Finish reading"), tr ("Ready debug"));
+        currentline = 0;
+        ui->widget->setReadOnly(false);
+        ui->pushButton->setEnabled(true);
+        ui -> pushButton_3->setEnabled(false);
+        ui->pushButton_2->setEnabled(true);
+    } else {
+        QString lin = lines[currentline];
+        string toparser = lin.toStdString();
+        const char* p =toparser.c_str();
+        ui->widget->moveCursor(QTextCursor::Down);
+        cout << p << endl;
+        currentline++;
+    }
 
 
 }
 
-
+void MainWindow::on_pushButton_2_pressed()
+{
+    ui->widget->clear();
+}

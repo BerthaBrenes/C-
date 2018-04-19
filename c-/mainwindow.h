@@ -3,6 +3,9 @@
 
 #include <QMainWindow>
 #include <json.hpp>
+#include <QTextLine>
+#include <QString>
+#include <QDebug>
 using json = nlohmann::json;
 namespace Ui {
 class MainWindow;
@@ -19,16 +22,22 @@ public:
 private slots:
     void on_label_windowIconTextChanged(const QString &iconText);
 
-    void on_plainTextEdit_textChanged();
-
     void on_lcdNumber_windowIconTextChanged(const QString &iconText);
 
     void on_pushButton_pressed();
 
+    void on_pushButton_3_pressed();
+
+    void on_pushButton_2_pressed();
+
 private:
     Ui::MainWindow *ui;
+
     int PORT;
     int SIZE;
+    int currentline;
+    QString text;
+    QStringList lines;
     void Update ();
     void TableRe (json all);
     bool Validate (json info);
