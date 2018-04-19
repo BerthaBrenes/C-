@@ -36,7 +36,7 @@ json Execute(string Data)
     return j3;
 
 }
-void Get (string label, void *variable){
+json Get (string label){
     signal(SIGINT, sig_exit);
     if (ready == false) {
         tcp.setup("127.0.0.1",PORT);

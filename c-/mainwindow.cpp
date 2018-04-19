@@ -21,6 +21,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 }
+bool MainWindow :: Validate (json info){
+    if (info["value"].is_string()) return true;
+    else return false;
+}
 void MainWindow::TableRe(json all) {
     ui -> tableWidget -> setRowCount(0);
     int fila = ui -> tableWidget -> rowCount();
@@ -29,7 +33,9 @@ void MainWindow::TableRe(json all) {
         cout << it.key() << endl;
         cout << all[it.key()]["value"] << endl;
         ui -> tableWidget -> insertRow(ui->tableWidget->rowCount());
-        ui -> tableWidget -> setItem(fila, Value, new QTableWidgetItem (QString::number((float)all[it.key()]["value"])));
+        if (Validate(all[it.key()])) ui -> tableWidget -> setItem(fila, Value, new QTableWidgetItem (QString::fromStdString(all[it.key()]["value"])));
+
+        else ui -> tableWidget -> setItem(fila, Value, new QTableWidgetItem (QString::number((float)all[it.key()]["value"])));
         ui -> tableWidget -> setItem(fila, Direction, new QTableWidgetItem (QString::fromStdString(all[it.key()]["direction"])));
         ui->tableWidget -> setItem(fila, Label, new QTableWidgetItem (QString::fromStdString(it.key())));
         ui->tableWidget -> setItem(fila, Count, new QTableWidgetItem (QString::number((int)all[it.key()]["countr"])));
@@ -80,7 +86,13 @@ void MainWindow::Update()
     J["size"] = 4;
     J["countr"] = 1;
     TableRe(Execute(J.dump()));
-
+    json J2;
+    J2["type"] = "float";
+    J2["value"] = "Número PI";
+    J2["label"] = "Número";
+    J2["size"] = 4;
+    J2["countr"] = 1;
+    TableRe(Execute(J2.dump()));
 
 
 

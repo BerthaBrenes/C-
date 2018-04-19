@@ -31,6 +31,7 @@ private:
     int SIZE;
     void Update ();
     void TableRe (json all);
+    bool Validate (json info);
     enum Columna {
         Direction, Label, Value, Count
     };

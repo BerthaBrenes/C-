@@ -63,6 +63,7 @@ void *loop (void *m) {
             else {
                 cout << "New Variable: " << str << endl;
                 // Analizar str a json osea convertir un str a json
+                cout << str << endl;
                 auto j3 = json::parse (str);
 
                 j3["direction"] = getDirection(TYPES(j3));
@@ -89,18 +90,34 @@ bool exist  (json info) {
         return 1;
     }
 }
+bool validate (json info){
+    if (info["value"].is_string()) return true;
+    else return false;
+}
 void* TYPES (json info){
     string tipo = info["type"];
 
     if (exist(info)){
         string var = info["label"];
-        Var[var]["value"] = info["label"];
+        if (validate(Var[var])){
+            string toa = Var[var]["value"];
+            Var[toa]["countr"] = ((int)Var[toa]["countr"])-1;
+            Var[var]["value"] = info["value"];
+        } else {
+            Var[var]["value"] = info["value"];
+        }
         return Memorymap + (int)Var[var]["offset"];
     }else{
+
     if (tipo == "int") //Caso para int
     {
         int *entero = (int*)Currentposition+first;
-        *entero = (int)info["value"];
+        if (validate(info)) {
+            string label = info["value"];
+            *entero = (int)Var[label]["value"];
+            Var[label]["countr"] =((int)Var[label]["countr"])+1;
+        }
+        else *entero = (int)info["value"];
         Two = Currentposition;
 
         Currentposition = entero;
@@ -130,7 +147,12 @@ void* TYPES (json info){
     else if (tipo == "float") //Caso para float
     {
         float* flotante = (float*)Currentposition+first;
-        *flotante = (float)info["value"];
+        if (validate(info)) {
+            string label = info["value"];
+            *flotante = (float)Var[label]["value"];
+            Var[label]["countr"] =((int)Var[label]["countr"])+1;
+        }
+        else *flotante = (float)info["value"];
         Two = Currentposition;
 
         Currentposition = flotante;
@@ -146,7 +168,12 @@ void* TYPES (json info){
     else if( tipo == "double" )//Caso double
     {
         double *doble = (double*)Currentposition+first;
-        *doble = (double)info["value"];
+        if (validate(info)) {
+            string label = info["value"];
+            *doble = (double)Var[label]["value"];
+            Var[label]["countr"] =((int)Var[label]["countr"])+1;
+        }
+        else *doble = (double)info["value"];
         Two = Currentposition;
         Currentposition = doble;
         if (first == 0){
@@ -160,7 +187,12 @@ void* TYPES (json info){
     else if (tipo == "long") // Caso long
     {
         long *larg = (long*)Currentposition+first;
-        *larg = (long)info["value"];
+        if (validate(info)) {
+            string label = info["value"];
+            *larg = (long)Var[label]["value"];
+            Var[label]["countr"] =((int)Var[label]["countr"])+1;
+        }
+        else *larg = (long)info["value"];
         Two = Currentposition;
         Currentposition = larg;
         if (first == 0){
@@ -183,6 +215,32 @@ string getDirection(void *direction) {
     cout << "This is direction: " <<d << endl;
     return d;
 }
+json creator (string type, float value, int size, string label, int countr, int offset){
+    json uno;
+    uno ["type"] = type;
+    uno ["value"] = value;
+    uno ["size"] = size;
+    uno ["label"] = label;
+    uno ["countr"] = countr;
+    float *var1 = (float*)TYPES(uno);
+    uno ["offset"] = offset;
+    uno ["direction"] = getDirection(var1);
+    uno.erase ("label");
+    Var[label] = uno;
+}
+json creator (string type, string value, int size, string label, int countr, int offset){
+    json uno;
+    uno ["type"] = type;
+    uno ["value"] = value;
+    uno ["size"] = size;
+    uno ["label"] = label;
+    uno ["countr"] = countr;
+    float *var1 = (float*)TYPES(uno);
+    uno ["offset"] = offset;
+    uno ["direction"] = getDirection(var1);
+    uno.erase ("label");
+    Var[label] = uno;
+}
 int main(int argc, char *argv[]) {
         QCoreApplication a(argc, argv);
 
@@ -196,38 +254,10 @@ int main(int argc, char *argv[]) {
         Currentposition = Memorymap;
 
         //Solictud de memoria
-        json uno;
-        uno ["type"] = "float";
-        uno ["value"] = 5.2;
-        uno ["size"] = 4;
-        uno ["label"] = "Número flotante";
-        uno ["countr"] = 1;
-
-        float *var1 = (float*)TYPES(uno);
-
-        uno ["offset"] = Current_oofset;
 
 
-        uno ["direction"] = getDirection(var1);
-        uno.erase ("label");
-        Var["Número flotante"] = uno;
 
 
-        json dos;
-        dos ["type"] = "int";
-        dos ["value"] = 3;
-        dos ["size"] = 4;
-        dos ["label"] = "Número entero";
-        dos["countr"] = 1;
-
-        int *var2 = (int*)TYPES (dos);
-
-        dos["offset"] = Current_oofset;
-
-
-        dos ["direction"] = getDirection(var2);
-        dos.erase ("label");
-        Var["Número entero"] = dos;
 
         // Ejecución del Servidor con el loop
         pthread_t msg;
