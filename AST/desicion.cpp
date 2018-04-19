@@ -1,6 +1,6 @@
 #include "desicion.h"
-
-
+#include "prefix.h"
+#include "operaciones.h"
 
 Desicion::Desicion(const char *text)
 {
@@ -16,7 +16,9 @@ Desicion::Desicion(const char *text)
         return;
     }
     if(isupper(m_Text[m_Index])){
+        new Operaciones(m_Text);
         cout<<"Encontro un variable"<<endl;
+
         return;
     }
 
@@ -54,6 +56,7 @@ void Desicion::FindNextWay()
         cout<<"float"<<endl;
         if(Verificar(0, buffer)){
             cout<<"se verifico"<<endl;
+            ASTNodeType* node =prefix(m_Text).ReturNode();
             break;
         }else{
             break;
@@ -64,6 +67,7 @@ void Desicion::FindNextWay()
         cout<<"double"<<endl;
         if(Verificar(1, buffer)){
             cout<<"se verifico"<<endl;
+            ASTNodeType* node =prefix(m_Text).ReturNode();
             break;
         }else{
             break;
@@ -73,6 +77,7 @@ void Desicion::FindNextWay()
         cout<<"int"<<endl;
         if(Verificar(2, buffer)){
             cout<<"se verifico"<<endl;
+            ASTNodeType* node =prefix(m_Text).ReturNode();
             break;
         }else{
             break;
@@ -83,6 +88,7 @@ void Desicion::FindNextWay()
         cout<<"long"<<endl;
         if(Verificar(3, buffer)){
             cout<<"se verifico"<<endl;
+            ASTNodeType* node =prefix(m_Text).ReturNode();
             break;
         }else{
             break;
@@ -95,6 +101,7 @@ void Desicion::FindNextWay()
         {
             if(Verificar(4, buffer)){
                 cout<<"se verifico"<<endl;
+                ASTNodeType* node =prefix(m_Text).ReturNode();
                 break;
             }else{
                 break;
@@ -103,6 +110,7 @@ void Desicion::FindNextWay()
             cout<<"class"<<endl;
             if(Verificar(6,buffer)){
                 cout<<"se verifico"<<endl;
+                ASTNodeType* node =prefix(m_Text).ReturNode();
                 break;
             }else{
                 break;
@@ -114,6 +122,7 @@ void Desicion::FindNextWay()
         cout<<"struct"<<endl;
         if(Verificar(5,buffer)){
             cout<<"se verifico"<<endl;
+            ASTNodeType* node =prefix(m_Text).ReturNode();
             break;
         }else{
             break;

@@ -9,7 +9,7 @@ int main()
 {
     cout << "Hello World!" << endl;
 
-   Desicion("A = (valeverga)");
+    Desicion("A = B /C;");
     //ASTNodeType* node =prefix("double Dee4 = 8;").ReturNode();
    //ASTNodeType* node =prefix("char Alv = (putisima);").ReturNode();
      //("struct {");
