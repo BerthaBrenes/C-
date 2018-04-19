@@ -2,7 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
+#include <json.hpp>
+using json = nlohmann::json;
 namespace Ui {
 class MainWindow;
 }
@@ -27,7 +28,12 @@ private slots:
 private:
     Ui::MainWindow *ui;
     int PORT;
+    int SIZE;
     void Update ();
+    void TableRe (json all);
+    enum Columna {
+        Direction, Label, Value, Count
+    };
 };
 
 #endif // MAINWINDOW_H

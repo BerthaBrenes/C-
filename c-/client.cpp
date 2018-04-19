@@ -1,12 +1,17 @@
 #include <iostream>
 #include <signal.h>
 #include "tcpclient.cpp"
-#include "rapidjson/document.h"
-#include "rapidjson/writer.h"
-#include "rapidjson/stringbuffer.h"
+#include <typeinfo>
+#include "json.hpp"
+#include <string>
+using namespace std;
+using json = nlohmann::json;
+
 TCPClient tcp;
-using namespace rapidjson;
 int PORT;
+bool ready = false;
+
+
 void setPort (int port){
     PORT = port;
 }
@@ -15,16 +20,32 @@ void sig_exit(int s)
     tcp.exit();
 	exit(0);
 }
-string Execute(string Data)
+json Execute(string Data)
 {
     signal(SIGINT, sig_exit);
-    tcp.setup("127.0.0.1",PORT);
+    if (ready == false) {
+        tcp.setup("127.0.0.1",PORT);
+        ready = true;
+    }
     tcp.Send(Data);
 
     string rec = tcp.receive();
+    auto j3 = json::parse (rec);
 
 
-    return rec;
+    return j3;
 
 }
+void Get (string label, void *variable){
+    signal(SIGINT, sig_exit);
+    if (ready == false) {
+        tcp.setup("127.0.0.1",PORT);
+        ready = true;
+    }
+    tcp.Send("Get this: "+label);
 
+    string rec = tcp.receive();
+
+    auto j3 = json::parse (rec);
+
+}

@@ -2,12 +2,15 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>665</width>
-    <height>527</height>
+    <width>799</width>
+    <height>624</height>
    </rect>
   </property>
   <property name="palette">
@@ -429,44 +432,6 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QTableWidget" name="tableWidget">
-    <property name="geometry">
-     <rect>
-      <x>260</x>
-      <y>0</y>
-      <width>391</width>
-      <height>321</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Subpear</family>
-     </font>
-    </property>
-    <property name="gridStyle">
-     <enum>Qt::DashLine</enum>
-    </property>
-    <column>
-     <property name="text">
-      <string>Memory D</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Value</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Label</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Count R</string>
-     </property>
-    </column>
-   </widget>
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
@@ -490,8 +455,8 @@
      <rect>
       <x>10</x>
       <y>30</y>
-      <width>231</width>
-      <height>271</height>
+      <width>401</width>
+      <height>461</height>
      </rect>
     </property>
     <property name="widgetResizable">
@@ -502,8 +467,8 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>229</width>
-       <height>269</height>
+       <width>399</width>
+       <height>459</height>
       </rect>
      </property>
      <widget class="QPlainTextEdit" name="plainTextEdit">
@@ -511,8 +476,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>231</width>
-        <height>271</height>
+        <width>401</width>
+        <height>461</height>
        </rect>
       </property>
       <property name="palette">
@@ -948,7 +913,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>340</y>
+      <y>510</y>
       <width>391</width>
       <height>41</height>
      </rect>
@@ -966,7 +931,7 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>320</y>
+      <y>490</y>
       <width>401</width>
       <height>31</height>
      </rect>
@@ -978,8 +943,8 @@
    <widget class="QLCDNumber" name="lcdNumber">
     <property name="geometry">
      <rect>
-      <x>560</x>
-      <y>350</y>
+      <x>730</x>
+      <y>550</y>
       <width>64</width>
       <height>23</height>
      </rect>
@@ -998,14 +963,44 @@
      <string>Clear</string>
     </property>
    </widget>
+   <widget class="QTableWidget" name="tableWidget">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>30</y>
+      <width>351</width>
+      <height>461</height>
+     </rect>
+    </property>
+    <column>
+     <property name="text">
+      <string>Direction</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Label</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Value</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Count</string>
+     </property>
+    </column>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>665</width>
-     <height>22</height>
+     <width>799</width>
+     <height>17</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuC_IDE">
