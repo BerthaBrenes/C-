@@ -56,18 +56,18 @@ void Operaciones::GetNextToken()
     }
 }
 
-    astNode *Operaciones::CreateNodes(NodeType type, astNode *left, astNode *right)
+    ASTNodeType *Operaciones::CreateNodes(NodeType type, ASTNodeType *left, ASTNodeType *right)
     {
-        astNode* node = new astNode;
+        ASTNodeType* node = new ASTNodeType;
         node->Type = type;
         node->Left = left;
         node->Right = right;
         return node;
     }
 
-    astNode *Operaciones::CreateNodes(NodeType type)
+    ASTNodeType *Operaciones::CreateNodes(NodeType type)
     {
-        astNode* node = new astNode;
+        ASTNodeType* node = new ASTNodeType;
         node->Type = type;
         node->Left = nullptr;
         node->Right = nullptr;
@@ -119,7 +119,7 @@ void Operaciones::GetNextToken()
 
     }
 
-    astNode *Operaciones::Validar(char *name)
+    ASTNodeType *Operaciones::Validar(char *name)
     {
         SkipWhiteSpaces();
         //Get("name");

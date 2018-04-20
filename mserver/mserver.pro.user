@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<<<<<<< HEAD
-<!-- Written by QtCreator 4.6.0, 2018-04-19T20:14:44. -->
-=======
-<!-- Written by QtCreator 4.6.0, 2018-04-20T01:39:01. -->
->>>>>>> 4223c5c875a09a5eb82ed7eed487c6c148e6e600
+<!-- Written by QtCreator 4.6.0, 2018-04-20T06:22:14. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -314,7 +310,7 @@
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">mserver.pro</value>
     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory"></value>
-    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default">/home/berthabb/Documents/C-/build-mserver-Desktop_Qt_5_11_0_GCC_64bit-Debug</value>
+    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default"></value>
     <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>

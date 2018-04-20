@@ -2,7 +2,7 @@
 #define INTIGER_H
 #include "factorydepends.h"
 #include "interfaces.h"
-#include "astnode.h"
+#include "astnodetype.h"
 #include "json.hpp"
 #include "fstream"
 
@@ -23,7 +23,7 @@ public:
          cout<<"name:prsdunts int "<<endl;
     }
 
-    astNode* Data(astNode* node){
+    ASTNodeType* Data(ASTNodeType* node){
         cout<<"nodo tipo:"<<node->Value<<endl;
         json dataServer;
         dataServer["type"] = "int";
@@ -35,12 +35,16 @@ public:
         tcp.setPort(node->puerto);
         node->data = tcp.Execute(dataServer.dump());
         cout<<node->data<<endl;
+        ofstream es;
+        es.open("table.json",ios::out);
+        es<<node->data<<endl;
+        es.close();
         return node;
     }
     void Free() {
         delete this;
     }
-    virtual void saveStruct(astNode* node){
+    virtual void saveStruct(ASTNodeType* node){
         ofstream es;
         es.open("prueba.json",ios::app);
         cout<<"nodo tipo en struct:"<<node->Value<<endl;

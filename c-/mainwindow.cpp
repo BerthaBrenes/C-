@@ -10,7 +10,8 @@
 #include <QDebug>
 #include <QWidget>
 #include <QMutableStringListIterator>
-#include "astnode.h"
+#include "astnodetype.h"
+#include <stdio.h>
 #include "desicion.h"
 using json = nlohmann::json;
 using namespace std;
@@ -124,9 +125,19 @@ void MainWindow::on_pushButton_3_pressed()
         string toparser = lin.toStdString();
         char* linea_actual = (char*)toparser.c_str();
         cout << linea_actual << endl;
-        astNode *node = Desicion(linea_actual,PORT).ReturNode();
+        ASTNodeType *node = Desicion(linea_actual,PORT).ReturNode();
         cout<<"asdasdasdsa"<<node->data<<endl;
-        TableRe(node->data);
+        ifstream lec;
+        lec.open("table.json",ios::in);
+        string puta;
+            getline(lec, puta);
+            cout<<"se me olvido"<<puta<<endl;
+
+        cout<<"todo bien"<<node->data<<endl;
+        lec.close();
+        remove("table.json");
+        auto j8 = json::parse(puta);
+        TableRe(j8);
         if (lines[currentline] == "float"){
             json J;
             J["type"] = "char";

@@ -1,13 +1,8 @@
-#ifndef ASTNODE_H
-#define ASTNODE_H
-<<<<<<< HEAD
-
-=======
+#ifndef ASTNODETYPE_H
+#define ASTNODETYPE_H
 #include "json.hpp"
 #include "fstream"
-
 using json = nlohmann::json;
->>>>>>> 4223c5c875a09a5eb82ed7eed487c6c148e6e600
 enum NodeType{
     Undefined,
     OperatorPlus,
@@ -23,25 +18,23 @@ enum NodeType{
     OperatorDecla,
 
 };
-class astNode
+class ASTNodeType
 {
 public:
     NodeType Type;
     double Value;
     char* value;
-<<<<<<< HEAD
-=======
     json data;
     int puerto;
->>>>>>> 4223c5c875a09a5eb82ed7eed487c6c148e6e600
-    astNode* Left;
-    astNode* Right;
-    astNode();
+    ASTNodeType* Left;
+    ASTNodeType* Right;
+    ASTNodeType();
     void Print();
-    ~astNode(){
+    void Print(ASTNodeType* root);
+    ~ASTNodeType(){
         delete Right;
         delete Left;
     }
 };
 
-#endif // ASTNODE_H
+#endif // ASTNODETYPE_H

@@ -1,19 +1,18 @@
-#include "astnode.h"
+#include "astnodetype.h"
 #include <iostream>
-
 using namespace std;
-astNode::astNode()
+ASTNodeType::ASTNodeType()
 {
- Type = Undefined;
- Value = 0;
- Left = nullptr;
- Right = nullptr;
+    Type = Undefined;
+    Value = 0;
+    Left = nullptr;
+    Right = nullptr;
 }
-
-void astNode::Print()
-{
+void ASTNodeType::Print(){
     cout<<"Valor raiz"<< Value<<endl;
+       cout<<"Valor del tipo"<< Type<<endl;
        cout<<"Valor de izquierda"<< Left->Value<<endl;
+       cout<<'aqui se escpicha'<<endl;
        if(Right->Value)
        {
            cout<<"Valor de derecha"<< Right->Value<<endl;
@@ -28,5 +27,8 @@ void astNode::Print()
        {
            cout<<"Valor de izquierda"<<Left->value<<endl;
        }
+
+}
+void ASTNodeType::Print(ASTNodeType* root){
 
 }

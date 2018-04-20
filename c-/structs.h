@@ -2,14 +2,17 @@
 #define STRUCTS_H
 #include "factorydepends.h"
 #include "interfaces.h"
-#include "astnode.h"
+#include "astnodetype.h"
 #include "json.hpp"
 #include "fstream"
+#include "client.h"
+
 using json = nlohmann::json;
 
 class Structs :public interfaces
 {
 public:
+    client tcp;
     //json dataServer;
     //dataServer["data"] = {{"inicio","vla"}};
      void send(char* name,char* value) {
@@ -23,7 +26,7 @@ public:
          cout<<"se supone que estoy en struct "<<endl;
     }
 
-    astNode* Data(astNode* node){
+    ASTNodeType* Data(ASTNodeType* node){
         json dataServer;
         dataServer["type"] = "struct";
         dataServer["name"] = node->Left->value;
@@ -41,12 +44,15 @@ public:
         esf.close();
         cout<<"nodo tipo:"<<node->Value<<endl;
         cout<<dataServer<<endl;
+        tcp.setPort(node->puerto);
+        node->data = tcp.Execute(dataServer.dump());
+        cout<<node->data<<endl;
         return node;
     }
     void Free() {
         delete this;
     }
-    virtual void saveStruct(astNode* node){
+    virtual void saveStruct(ASTNodeType* node){
         ofstream es;
         es.open("prueba.json",ios::app);
         cout<<"nodo tipo en struct:"<<node->Value<<endl;

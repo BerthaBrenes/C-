@@ -2,14 +2,16 @@
 #define DOUBLES_H
 #include "factorydepends.h"
 #include "interfaces.h"
-#include "astnode.h"
+#include "astnodetype.h"
 #include "json.hpp"
 #include "fstream"
+#include "client.h"
 
 using json = nlohmann::json;
 class doubles: public interfaces
 {
 public:
+    client tcp;
      void send(char* name,char* value) {
         cout<<"name: "<<name<<" value:"<<value<<endl;
     }
@@ -21,7 +23,7 @@ public:
          cout<<"name:double "<<endl;
     }
 
-     astNode* Data(astNode* node){
+     ASTNodeType* Data(ASTNodeType* node){
          cout<<"nodo tipo wohoo:"<<node->Value<<endl;
          json dataServer;
          dataServer["type"] = "Double";
@@ -29,11 +31,14 @@ public:
          dataServer["value"] = node->Right->Value;
          dataServer["size"] = 8;
          cout<<dataServer.dump()<<endl;
-
+         tcp.setPort(node->puerto);
+         node->data = tcp.Execute(dataServer.dump());
+         cout<<node->data<<endl;
+         return node;
         return node;
 
      }
-     virtual void saveStruct(astNode* node){
+     virtual void saveStruct(ASTNodeType* node){
          ofstream es;
          es.open("prueba.json",ios::app);
          cout<<"nodo tipo en struct:"<<node->Value<<endl;

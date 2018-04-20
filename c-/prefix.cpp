@@ -9,16 +9,7 @@
 #include <cstring>
 #include <sstream>
 #include <interfaces.h>
-<<<<<<< HEAD
 
-using namespace std;
-
-
-prefix::prefix(char *text)
-{
-    m_Text = text;
-    m_Index = 0;
-=======
 using namespace std;
 
 
@@ -27,7 +18,6 @@ prefix::prefix(char *text, int puerto)
     m_Text = text;
     m_Index = 0;
     m_puerto = puerto;
->>>>>>> 4223c5c875a09a5eb82ed7eed487c6c148e6e600
     cout<<"constructor"<<endl;
     GetNextToken();
 
@@ -126,10 +116,7 @@ void prefix::GetNextToken()
                     cout<<"struc cerrado"<<endl;
                    // NodoLine->Print();
                     cout<<"aqui creo que no llego"<<endl;
-<<<<<<< HEAD
-=======
                     NodoLine->puerto = m_puerto;
->>>>>>> 4223c5c875a09a5eb82ed7eed487c6c148e6e600
                     interfaces *ptrDep = factorydepends::Get()->CreateInterface(NodoLine);
                     ptrDep->Data(NodoLine);
                     //Execute()
@@ -234,7 +221,7 @@ string prefix::to_strin(double x)
     return ss.str();
 }
 
-astNode *prefix::ReturNode()
+ASTNodeType *prefix::ReturNode()
 {
     return NodoLine;
 }
@@ -478,18 +465,18 @@ void prefix::Match(char expected)
     }
 }
 
-astNode *prefix::CreateNode(NodeType type, astNode *left, astNode *right)
+ASTNodeType *prefix::CreateNode(NodeType type, ASTNodeType *left, ASTNodeType *right)
 {
-    astNode* node = new astNode;
+    ASTNodeType* node = new ASTNodeType;
     node->Type = type;
     node->Left = left;
     node->Right = right;
     return node;
 }
 
-astNode *prefix::CreateNode(NodeType type)
+ASTNodeType *prefix::CreateNode(NodeType type)
 {
-    astNode* node = new astNode;
+    ASTNodeType* node = new ASTNodeType;
     node->Type = type;
     node->Left = nullptr;
     node->Right = nullptr;
@@ -498,16 +485,16 @@ astNode *prefix::CreateNode(NodeType type)
 
 
 
-astNode *prefix::CreateNodeNumber(double value)
+ASTNodeType *prefix::CreateNodeNumber(double value)
 {
-    astNode* node = new astNode;
+    ASTNodeType* node = new ASTNodeType;
     node->Value = value;
     return node;
 }
 
-astNode *prefix::CreateNodeChar(char *value)
+ASTNodeType *prefix::CreateNodeChar(char *value)
 {
-    astNode* node = new astNode;
+    ASTNodeType* node = new ASTNodeType;
     node->Type = VariableName;
     //        node->Value = value;
     return node;

@@ -7,7 +7,7 @@
 #include "longer.h"
 #include "prueba.h"
 #include "interfaces.h"
-#include "astnode.h"
+#include "astnodetype.h"
 #include "doubles.h"
 #include "chars.h"
 #include "floating.h"
@@ -20,7 +20,7 @@ factorydepends::factorydepends()
 
 }
 
-interfaces *factorydepends::CreateInterface(const astNode* interface){
+interfaces *factorydepends::CreateInterface(const ASTNodeType *interface){
     int x = 0;
     x = interface->Value;
     switch (x) {

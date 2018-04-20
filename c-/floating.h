@@ -2,14 +2,16 @@
 #define FLOATING_H
 #include "factorydepends.h"
 #include "interfaces.h"
-#include "astnode.h"
+#include "astnodetype.h"
 #include "json.hpp"
 #include "fstream"
+#include "client.h"
 
 using json = nlohmann::json;
 class Floating :public interfaces
 {
 public:
+    client tcp;
      void send(char* name,char* value) {
         cout<<"name: "<<name<<" value:"<<value<<endl;
     }
@@ -21,7 +23,7 @@ public:
          cout<<"name:prufloats "<<endl;
     }
 
-    astNode* Data(astNode* node){
+    ASTNodeType* Data(ASTNodeType* node){
         cout<<"nodo tipo:"<<node->Value<<endl;
         json dataServer;
         dataServer["type"] = "float";
@@ -29,13 +31,16 @@ public:
         dataServer["value"] = node->Right->Value;
         dataServer["size"] = 4;
         cout<<dataServer.dump()<<endl;
+        tcp.setPort(node->puerto);
+        node->data = tcp.Execute(dataServer.dump());
+        cout<<node->data<<endl;
         return node;
 
     }
     void Free() {
         delete this;
     }
-    virtual void saveStruct(astNode* node){
+    virtual void saveStruct(ASTNodeType* node){
         ofstream es;
         es.open("prueba.json",ios::app);
         cout<<"nodo tipo en struct:"<<node->Value<<endl;

@@ -52,6 +52,8 @@ OBJECTS_DIR   = ./
 
 SOURCES       = ../c-/main.cpp \
 		../c-/mainwindow.cpp \
+		../c-/tcpclient.cpp \
+		../c-/client.cpp \
 		../c-/codeeditor.cpp \
 		../c-/desicion.cpp \
 		../c-/factorydepends.cpp \
@@ -59,10 +61,12 @@ SOURCES       = ../c-/main.cpp \
 		../c-/parseoascii.cpp \
 		../c-/prefix.cpp \
 		../c-/prueba.cpp \
-		../c-/astnode.cpp moc_mainwindow.cpp \
+		../c-/astnodetype.cpp moc_mainwindow.cpp \
 		moc_codeeditor.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
+		tcpclient.o \
+		client.o \
 		codeeditor.o \
 		desicion.o \
 		factorydepends.o \
@@ -70,7 +74,7 @@ OBJECTS       = main.o \
 		parseoascii.o \
 		prefix.o \
 		prueba.o \
-		astnode.o \
+		astnodetype.o \
 		moc_mainwindow.o \
 		moc_codeeditor.o
 DIST          = ../c-/uml_c-.qmodel \
@@ -275,7 +279,6 @@ DIST          = ../c-/uml_c-.qmodel \
 		../c-/factorydepends.h \
 		../c-/floating.h \
 		../c-/interfaces.h \
-		../c-/intermediario.h \
 		../c-/intiger.h \
 		../c-/chars.h \
 		../c-/longer.h \
@@ -284,8 +287,10 @@ DIST          = ../c-/uml_c-.qmodel \
 		../c-/prefix.h \
 		../c-/prueba.h \
 		../c-/structs.h \
-		../c-/astnode.h ../c-/main.cpp \
+		../c-/astnodetype.h ../c-/main.cpp \
 		../c-/mainwindow.cpp \
+		../c-/tcpclient.cpp \
+		../c-/client.cpp \
 		../c-/codeeditor.cpp \
 		../c-/desicion.cpp \
 		../c-/factorydepends.cpp \
@@ -293,7 +298,7 @@ DIST          = ../c-/uml_c-.qmodel \
 		../c-/parseoascii.cpp \
 		../c-/prefix.cpp \
 		../c-/prueba.cpp \
-		../c-/astnode.cpp
+		../c-/astnodetype.cpp
 QMAKE_TARGET  = C-
 DESTDIR       = 
 TARGET        = C-
@@ -711,8 +716,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../Qt/5.11.0/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../c-/mainwindow.h ../c-/tcpclient.h ../c-/json_copy.hpp ../c-/linenumberarea.h ../c-/codeeditor.h ../c-/desicion.h ../c-/doubles.h ../c-/factorydepends.h ../c-/floating.h ../c-/interfaces.h ../c-/intermediario.h ../c-/intiger.h ../c-/chars.h ../c-/longer.h ../c-/operaciones.h ../c-/parseoascii.h ../c-/prefix.h ../c-/prueba.h ../c-/structs.h ../c-/astnode.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../c-/main.cpp ../c-/mainwindow.cpp ../c-/codeeditor.cpp ../c-/desicion.cpp ../c-/factorydepends.cpp ../c-/operaciones.cpp ../c-/parseoascii.cpp ../c-/prefix.cpp ../c-/prueba.cpp ../c-/astnode.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../c-/mainwindow.h ../c-/tcpclient.h ../c-/json_copy.hpp ../c-/linenumberarea.h ../c-/codeeditor.h ../c-/desicion.h ../c-/doubles.h ../c-/factorydepends.h ../c-/floating.h ../c-/interfaces.h ../c-/intiger.h ../c-/chars.h ../c-/longer.h ../c-/operaciones.h ../c-/parseoascii.h ../c-/prefix.h ../c-/prueba.h ../c-/structs.h ../c-/astnodetype.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../c-/main.cpp ../c-/mainwindow.cpp ../c-/tcpclient.cpp ../c-/client.cpp ../c-/codeeditor.cpp ../c-/desicion.cpp ../c-/factorydepends.cpp ../c-/operaciones.cpp ../c-/parseoascii.cpp ../c-/prefix.cpp ../c-/prueba.cpp ../c-/astnodetype.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../c-/mainwindow.ui $(DISTDIR)/
 
 
@@ -1435,9 +1440,6 @@ mainwindow.o: ../c-/mainwindow.cpp ../c-/mainwindow.h \
 		../../../Qt/5.11.0/gcc_64/include/QtGui/qtextdocument.h \
 		../../../Qt/5.11.0/gcc_64/include/QtGui/qabstracttextdocumentlayout.h \
 		../../../Qt/5.11.0/gcc_64/include/QtCore/QObject \
-		../c-/client.cpp \
-		../c-/tcpclient.cpp \
-		../c-/tcpclient.h \
 		../../../Qt/5.11.0/gcc_64/include/QtWidgets/QInputDialog \
 		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qinputdialog.h \
 		../../../Qt/5.11.0/gcc_64/include/QtWidgets/qlineedit.h \
@@ -1448,12 +1450,20 @@ mainwindow.o: ../c-/mainwindow.cpp ../c-/mainwindow.h \
 		../../../Qt/5.11.0/gcc_64/include/QtGui/qtextobject.h \
 		../../../Qt/5.11.0/gcc_64/include/QtCore/QStringList \
 		../../../Qt/5.11.0/gcc_64/include/QtCore/QMutableStringListIterator \
+		../c-/astnodetype.h \
 		../c-/desicion.h \
-		../c-/astnode.h \
 		../c-/prefix.h \
 		../c-/factorydepends.h \
 		../c-/interfaces.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../c-/mainwindow.cpp
+
+tcpclient.o: ../c-/tcpclient.cpp ../c-/tcpclient.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tcpclient.o ../c-/tcpclient.cpp
+
+client.o: ../c-/client.cpp ../c-/client.h \
+		../c-/tcpclient.h \
+		../c-/json.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o client.o ../c-/client.cpp
 
 codeeditor.o: ../c-/codeeditor.cpp ../c-/codeeditor.h \
 		../../../Qt/5.11.0/gcc_64/include/QtWidgets/QPlainTextEdit \
@@ -1580,7 +1590,7 @@ codeeditor.o: ../c-/codeeditor.cpp ../c-/codeeditor.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o codeeditor.o ../c-/codeeditor.cpp
 
 desicion.o: ../c-/desicion.cpp ../c-/desicion.h \
-		../c-/astnode.h \
+		../c-/astnodetype.h \
 		../c-/prefix.h \
 		../c-/factorydepends.h \
 		../c-/interfaces.h \
@@ -1588,7 +1598,7 @@ desicion.o: ../c-/desicion.cpp ../c-/desicion.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o desicion.o ../c-/desicion.cpp
 
 factorydepends.o: ../c-/factorydepends.cpp ../c-/factorydepends.h \
-		../c-/astnode.h \
+		../c-/astnodetype.h \
 		../c-/interfaces.h \
 		../c-/doubles.h \
 		../c-/json.hpp \
@@ -1596,13 +1606,15 @@ factorydepends.o: ../c-/factorydepends.cpp ../c-/factorydepends.h \
 		../c-/floating.h \
 		../c-/structs.h \
 		../c-/intiger.h \
+		../c-/client.h \
+		../c-/tcpclient.h \
 		../c-/longer.h \
 		../c-/prueba.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o factorydepends.o ../c-/factorydepends.cpp
 
 operaciones.o: ../c-/operaciones.cpp ../c-/operaciones.h \
 		../c-/prefix.h \
-		../c-/astnode.h \
+		../c-/astnodetype.h \
 		../c-/factorydepends.h \
 		../c-/interfaces.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o operaciones.o ../c-/operaciones.cpp
@@ -1611,21 +1623,17 @@ parseoascii.o: ../c-/parseoascii.cpp ../c-/parseoascii.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o parseoascii.o ../c-/parseoascii.cpp
 
 prefix.o: ../c-/prefix.cpp ../c-/prefix.h \
-		../c-/astnode.h \
+		../c-/astnodetype.h \
 		../c-/factorydepends.h \
 		../c-/interfaces.h \
-		../c-/parseoascii.h \
-		../c-/client.cpp \
-		../c-/tcpclient.cpp \
-		../c-/tcpclient.h \
-		../c-/json.hpp
+		../c-/parseoascii.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o prefix.o ../c-/prefix.cpp
 
 prueba.o: ../c-/prueba.cpp ../c-/prueba.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o prueba.o ../c-/prueba.cpp
 
-astnode.o: ../c-/astnode.cpp ../c-/astnode.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o astnode.o ../c-/astnode.cpp
+astnodetype.o: ../c-/astnodetype.cpp ../c-/astnodetype.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o astnodetype.o ../c-/astnodetype.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
@@ -1635,93 +1643,9 @@ moc_codeeditor.o: moc_codeeditor.cpp
 
 ####### Install
 
-install_target: first FORCE
-	@test -d $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor || mkdir -p $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor
-	-$(QINSTALL_PROGRAM) $(QMAKE_TARGET) $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/$(QMAKE_TARGET)
+install:  FORCE
 
-uninstall_target: FORCE
-	-$(DEL_FILE) $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/$(QMAKE_TARGET)
-	-$(DEL_DIR) $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/ 
-
-
-install_sources: first FORCE
-	@test -d $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor || mkdir -p $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor
-	-$(QINSTALL) /home/berthabb/Documents/C-/c-/main.cpp $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/main.cpp
-	-$(QINSTALL) /home/berthabb/Documents/C-/c-/mainwindow.cpp $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/mainwindow.cpp
-	-$(QINSTALL) /home/berthabb/Documents/C-/c-/tcpclient.cpp $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/tcpclient.cpp
-	-$(QINSTALL) /home/berthabb/Documents/C-/c-/client.cpp $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/client.cpp
-	-$(QINSTALL) /home/berthabb/Documents/C-/c-/json.hpp $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/json.hpp
-	-$(QINSTALL) /home/berthabb/Documents/C-/c-/codeeditor.cpp $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/codeeditor.cpp
-	-$(QINSTALL) /home/berthabb/Documents/C-/c-/desicion.cpp $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/desicion.cpp
-	-$(QINSTALL) /home/berthabb/Documents/C-/c-/factorydepends.cpp $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/factorydepends.cpp
-	-$(QINSTALL) /home/berthabb/Documents/C-/c-/operaciones.cpp $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/operaciones.cpp
-	-$(QINSTALL) /home/berthabb/Documents/C-/c-/parseoascii.cpp $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/parseoascii.cpp
-	-$(QINSTALL) /home/berthabb/Documents/C-/c-/prefix.cpp $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/prefix.cpp
-	-$(QINSTALL) /home/berthabb/Documents/C-/c-/prueba.cpp $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/prueba.cpp
-	-$(QINSTALL) /home/berthabb/Documents/C-/c-/astnode.cpp $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/astnode.cpp
-	-$(QINSTALL) /home/berthabb/Documents/C-/c-/mainwindow.h $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/mainwindow.h
-	-$(QINSTALL) /home/berthabb/Documents/C-/c-/tcpclient.h $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/tcpclient.h
-	-$(QINSTALL) /home/berthabb/Documents/C-/c-/json_copy.hpp $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/json_copy.hpp
-	-$(QINSTALL) /home/berthabb/Documents/C-/c-/linenumberarea.h $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/linenumberarea.h
-	-$(QINSTALL) /home/berthabb/Documents/C-/c-/codeeditor.h $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/codeeditor.h
-	-$(QINSTALL) /home/berthabb/Documents/C-/c-/desicion.h $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/desicion.h
-	-$(QINSTALL) /home/berthabb/Documents/C-/c-/doubles.h $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/doubles.h
-	-$(QINSTALL) /home/berthabb/Documents/C-/c-/factorydepends.h $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/factorydepends.h
-	-$(QINSTALL) /home/berthabb/Documents/C-/c-/floating.h $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/floating.h
-	-$(QINSTALL) /home/berthabb/Documents/C-/c-/interfaces.h $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/interfaces.h
-	-$(QINSTALL) /home/berthabb/Documents/C-/c-/intermediario.h $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/intermediario.h
-	-$(QINSTALL) /home/berthabb/Documents/C-/c-/intiger.h $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/intiger.h
-	-$(QINSTALL) /home/berthabb/Documents/C-/c-/chars.h $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/chars.h
-	-$(QINSTALL) /home/berthabb/Documents/C-/c-/longer.h $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/longer.h
-	-$(QINSTALL) /home/berthabb/Documents/C-/c-/operaciones.h $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/operaciones.h
-	-$(QINSTALL) /home/berthabb/Documents/C-/c-/parseoascii.h $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/parseoascii.h
-	-$(QINSTALL) /home/berthabb/Documents/C-/c-/prefix.h $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/prefix.h
-	-$(QINSTALL) /home/berthabb/Documents/C-/c-/prueba.h $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/prueba.h
-	-$(QINSTALL) /home/berthabb/Documents/C-/c-/structs.h $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/structs.h
-	-$(QINSTALL) /home/berthabb/Documents/C-/c-/astnode.h $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/astnode.h
-	-$(QINSTALL) /home/berthabb/Documents/C-/c-/C-.pro $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/C-.pro
-
-uninstall_sources: FORCE
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/C-.pro
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/astnode.h
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/structs.h
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/prueba.h
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/prefix.h
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/parseoascii.h
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/operaciones.h
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/longer.h
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/chars.h
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/intiger.h
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/intermediario.h
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/interfaces.h
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/floating.h
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/factorydepends.h
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/doubles.h
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/desicion.h
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/codeeditor.h
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/linenumberarea.h
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/json_copy.hpp
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/tcpclient.h
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/mainwindow.h
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/astnode.cpp
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/prueba.cpp
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/prefix.cpp
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/parseoascii.cpp
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/operaciones.cpp
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/factorydepends.cpp
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/desicion.cpp
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/codeeditor.cpp
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/json.hpp
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/client.cpp
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/tcpclient.cpp
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/mainwindow.cpp
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/main.cpp
-	-$(DEL_DIR) $(INSTALL_ROOT)/home/berthabb/Qt/Examples/Qt-5.11.0/widgets/codeeditor/ 
-
-
-install: install_target install_sources  FORCE
-
-uninstall: uninstall_target uninstall_sources  FORCE
+uninstall:  FORCE
 
 FORCE:
 

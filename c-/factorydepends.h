@@ -1,7 +1,7 @@
 #ifndef FACTORYDEPENDS_H
 #define FACTORYDEPENDS_H
 #include <iostream>
-#include "astnode.h"
+#include "astnodetype.h"
 #include "interfaces.h"
 #include "map"
 
@@ -28,7 +28,7 @@ public:
         static factorydepends instance;
         return &instance;
     }
-    interfaces *CreateInterface(const astNode* interfaceType);
+    interfaces *CreateInterface(const ASTNodeType* interfaceType);
 };
 
 

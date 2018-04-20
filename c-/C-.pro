@@ -24,8 +24,7 @@ SOURCES += main.cpp\
     parseoascii.cpp \
     prefix.cpp \
     prueba.cpp \
-
-    astnode.cpp
+    astnodetype.cpp
 
 HEADERS  += mainwindow.h \
     tcpclient.h \
@@ -37,7 +36,6 @@ HEADERS  += mainwindow.h \
     factorydepends.h \
     floating.h \
     interfaces.h \
-    intermediario.h \
     intiger.h \
     chars.h \
     longer.h \
@@ -46,7 +44,7 @@ HEADERS  += mainwindow.h \
     prefix.h \
     prueba.h \
     structs.h \
-    astnode.h
+    astnodetype.h
 
 FORMS    += mainwindow.ui
 
