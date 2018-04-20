@@ -2,7 +2,7 @@
 #include "prefix.h"
 #include "operaciones.h"
 
-Desicion::Desicion(const char *text)
+Desicion::Desicion(char* text)
 {
     m_Text = text;
     m_Index = 0;
@@ -25,10 +25,11 @@ Desicion::Desicion(const char *text)
 
 }
 
-Desicion::Desicion()
+astNode *Desicion::ReturNode()
 {
-
+ return NodoLine;
 }
+
 void Desicion::SkipWhiteSpaces()
 {
     while(isspace(m_Text[m_Index])){
@@ -56,7 +57,7 @@ void Desicion::FindNextWay()
         cout<<"float"<<endl;
         if(Verificar(0, buffer)){
             cout<<"se verifico"<<endl;
-            ASTNodeType* node =prefix(m_Text).ReturNode();
+            astNode* node =prefix(m_Text).ReturNode();
             break;
         }else{
             break;
@@ -67,7 +68,7 @@ void Desicion::FindNextWay()
         cout<<"double"<<endl;
         if(Verificar(1, buffer)){
             cout<<"se verifico"<<endl;
-            ASTNodeType* node =prefix(m_Text).ReturNode();
+            astNode* node =prefix(m_Text).ReturNode();
             break;
         }else{
             break;
@@ -77,7 +78,7 @@ void Desicion::FindNextWay()
         cout<<"int"<<endl;
         if(Verificar(2, buffer)){
             cout<<"se verifico"<<endl;
-            ASTNodeType* node =prefix(m_Text).ReturNode();
+            astNode* node =prefix(m_Text).ReturNode();
             break;
         }else{
             break;
@@ -88,7 +89,7 @@ void Desicion::FindNextWay()
         cout<<"long"<<endl;
         if(Verificar(3, buffer)){
             cout<<"se verifico"<<endl;
-            ASTNodeType* node =prefix(m_Text).ReturNode();
+            astNode* node =prefix(m_Text).ReturNode();
             break;
         }else{
             break;
@@ -101,7 +102,7 @@ void Desicion::FindNextWay()
         {
             if(Verificar(4, buffer)){
                 cout<<"se verifico"<<endl;
-                ASTNodeType* node =prefix(m_Text).ReturNode();
+                astNode* node =prefix(m_Text).ReturNode();
                 break;
             }else{
                 break;
@@ -110,7 +111,7 @@ void Desicion::FindNextWay()
             cout<<"class"<<endl;
             if(Verificar(6,buffer)){
                 cout<<"se verifico"<<endl;
-                ASTNodeType* node =prefix(m_Text).ReturNode();
+                astNode* node =prefix(m_Text).ReturNode();
                 break;
             }else{
                 break;
@@ -122,7 +123,7 @@ void Desicion::FindNextWay()
         cout<<"struct"<<endl;
         if(Verificar(5,buffer)){
             cout<<"se verifico"<<endl;
-            ASTNodeType* node =prefix(m_Text).ReturNode();
+            astNode* node =prefix(m_Text).ReturNode();
             break;
         }else{
             break;
@@ -136,10 +137,7 @@ void Desicion::FindNextWay()
     }
 
 }
-ASTNodeType *Desicion::ReturNode()
-{
-    return NodoLine;
-}
+
 bool Desicion::Verificar(int tipo, char *text)
 {
 

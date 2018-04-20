@@ -11,6 +11,7 @@
 #include <QDebug>
 #include <QWidget>
 #include <QMutableStringListIterator>
+#include "desicion.h"
 using json = nlohmann::json;
 using namespace std;
 MainWindow::MainWindow(QWidget *parent) :
@@ -145,6 +146,10 @@ void MainWindow::on_pushButton_3_pressed()
 
 
         char* linea_actual = (char*)toparser.c_str();
+        cout<<linea_actual<<endl;
+        char* m_te = {0};
+        m_te = linea_actual;
+        astNode* node  = Desicion(linea_actual).ReturNode();
 
         currentline++;
     }
