@@ -43,6 +43,7 @@ private:
     void Update ();
     void TableRe (json all);
     bool Validate (json info);
+    void nextb ();
     enum Columna {
         Direction, Label, Value, Count
     };

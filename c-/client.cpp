@@ -33,7 +33,7 @@ json Execute(string Data)
 
     string rec = tcp.receive();
     auto j3 = json::parse (rec);
-
+    cout << j3 << endl;
 
     return j3;
 
@@ -49,5 +49,14 @@ json Get (string label){
     string rec = tcp.receive();
 
     auto j3 = json::parse (rec);
+    return j3;
+}
 
+void Reset (){
+    signal(SIGINT, sig_exit);
+    if (ready == false) {
+        tcp.setup("127.0.0.1",PORT);
+        ready = true;
+    }
+    tcp.Send("Reset");
 }
