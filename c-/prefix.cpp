@@ -9,6 +9,7 @@
 #include <cstring>
 #include <sstream>
 #include <interfaces.h>
+<<<<<<< HEAD
 
 using namespace std;
 
@@ -17,6 +18,16 @@ prefix::prefix(char *text)
 {
     m_Text = text;
     m_Index = 0;
+=======
+using namespace std;
+
+
+prefix::prefix(char *text, int puerto)
+{
+    m_Text = text;
+    m_Index = 0;
+    m_puerto = puerto;
+>>>>>>> 4223c5c875a09a5eb82ed7eed487c6c148e6e600
     cout<<"constructor"<<endl;
     GetNextToken();
 
@@ -115,6 +126,10 @@ void prefix::GetNextToken()
                     cout<<"struc cerrado"<<endl;
                    // NodoLine->Print();
                     cout<<"aqui creo que no llego"<<endl;
+<<<<<<< HEAD
+=======
+                    NodoLine->puerto = m_puerto;
+>>>>>>> 4223c5c875a09a5eb82ed7eed487c6c148e6e600
                     interfaces *ptrDep = factorydepends::Get()->CreateInterface(NodoLine);
                     ptrDep->Data(NodoLine);
                     //Execute()

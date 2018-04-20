@@ -25,7 +25,11 @@ private:
     void SkipWhiteSpaces();
     void GetNextToken();
     double GetNumber();
+<<<<<<< HEAD
     void FindNextWay();
+=======
+    void FindNextWay(int puerto);
+>>>>>>> 4223c5c875a09a5eb82ed7eed487c6c148e6e600
     void Match(char expected);
     astNode* CreateNode(NodeType type, astNode* left, astNode* right);
     astNode* CreateNode(NodeType type);
@@ -38,7 +42,11 @@ private:
 
 
 public:
+<<<<<<< HEAD
       Desicion(char* text);
+=======
+      Desicion(char* text, int puerto);
+>>>>>>> 4223c5c875a09a5eb82ed7eed487c6c148e6e600
       astNode* ReturNode();
       Desicion();
 };

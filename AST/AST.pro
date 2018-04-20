@@ -1,5 +1,5 @@
 TEMPLATE = app
-CONFIG += console c++11
+CONFIG += console C++11
 CONFIG -= app_bundle
 CONFIG -= qt
 
@@ -11,8 +11,8 @@ SOURCES += main.cpp \
     prueba.cpp \
     desicion.cpp \
     operaciones.cpp \
-    tcpclient.cpp \
-    client.cpp
+    client.cpp \
+    tcpclient.cpp
 
 HEADERS += \
     prefix.h \

@@ -20,7 +20,8 @@ public:
      void print(){
          cout<<"name:prlonger "<<endl;
     }
-    void Data(astNode* node){
+
+    astNode* Data(astNode* node){
         cout<<"nodo tipo:"<<node->Value<<endl;
         json dataServer;
         dataServer["type"] = "long";
@@ -28,6 +29,7 @@ public:
         dataServer["value"] = node->Right->Value;
         dataServer["size"] = 8;
         cout<<dataServer.dump()<<endl;
+        return node;
     }
     void Free() {
         delete this;

@@ -24,6 +24,7 @@ SOURCES += main.cpp\
     parseoascii.cpp \
     prefix.cpp \
     prueba.cpp \
+
     astnode.cpp
 
 HEADERS  += mainwindow.h \
@@ -51,9 +52,3 @@ FORMS    += mainwindow.ui
 
 DISTFILES += \
     uml_c-.qmodel
-
- # install
- target.path = $$[QT_INSTALL_EXAMPLES]/widgets/codeeditor
- sources.files = $$SOURCES $$HEADERS *.pro
- sources.path = $$[QT_INSTALL_EXAMPLES]/widgets/codeeditor
- INSTALLS += target sources

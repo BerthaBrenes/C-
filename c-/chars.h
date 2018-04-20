@@ -19,7 +19,8 @@ public:
      void print(){
          cout<<"nam chars "<<endl;
     }
-    void Data(astNode* node){
+
+    astNode* Data(astNode* node){
         cout<<"nodo tipo wohoo:"<<node->Value<<endl;
         json dataServer;
         dataServer["type"] = "Char";
@@ -27,6 +28,8 @@ public:
         dataServer["value"] = node->Right->value;
         dataServer["size"] = 1;
         cout<<dataServer.dump()<<endl;
+        return node;
+
     }
     void Free() {
         delete this;

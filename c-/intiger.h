@@ -5,10 +5,13 @@
 #include "astnode.h"
 #include "json.hpp"
 #include "fstream"
+
+#include "client.h"
 using json = nlohmann::json;
 class Intiger :public interfaces
 {
 public:
+     client tcp;
      void send(char* name,char* value) {
         cout<<"name: "<<name<<" value:"<<value<<endl;
     }
@@ -19,14 +22,20 @@ public:
      void print(){
          cout<<"name:prsdunts int "<<endl;
     }
-    void Data(astNode* node){
+
+    astNode* Data(astNode* node){
         cout<<"nodo tipo:"<<node->Value<<endl;
         json dataServer;
         dataServer["type"] = "int";
-        dataServer["name"] = node->Left->value;
+        dataServer["label"] = node->Left->value;
         dataServer["value"] = node->Right->Value;
         dataServer["size"] = 4;
+        dataServer["countr"] = 1;
         cout<<dataServer.dump()<<endl;
+        tcp.setPort(node->puerto);
+        node->data = tcp.Execute(dataServer.dump());
+        cout<<node->data<<endl;
+        return node;
     }
     void Free() {
         delete this;
@@ -37,11 +46,14 @@ public:
         cout<<"nodo tipo en struct:"<<node->Value<<endl;
         json dataServer;
         dataServer["type"] = "int";
-        dataServer["name"] = node->Left->value;
+        dataServer["label"] = node->Left->value;
         dataServer["value"] = node->Right->Value;
         dataServer["size"] = 1;
+        dataServer["countr"] = 1;
         cout<<dataServer.dump()<<endl;
         es<<dataServer<<endl;
+        node->data = tcp.Execute(dataServer.dump());
+
         es.close();
     }
     static interfaces* Create(){

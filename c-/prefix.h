@@ -39,6 +39,7 @@ class prefix
     Token m_crtToken;
     char* m_Text;
     int m_Index;
+    int m_puerto;
 private:
 
     void SkipWhiteSpaces();
@@ -60,7 +61,8 @@ private:
     ifstream ls;
 
 public:
-      prefix(char* text);
+
+      prefix(char* text, int puerto);
       astNode* ReturNode();
       prefix();
 };

@@ -8,11 +8,7 @@ class interfaces{
     virtual void send(char* name, double value) = 0;
     virtual void print()= 0;
     virtual void Free() = 0;
-<<<<<<< HEAD
-    virtual void Data(astNode* node) =0;
-=======
     virtual astNode* Data(astNode* node) =0;
->>>>>>> 4223c5c875a09a5eb82ed7eed487c6c148e6e600
     virtual void saveStruct(astNode* node) =0;
     typedef interfaces*  CreateInterfaceFn;
 };

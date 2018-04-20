@@ -20,7 +20,8 @@ public:
      void print(){
          cout<<"name:prufloats "<<endl;
     }
-    void Data(astNode* node){
+
+    astNode* Data(astNode* node){
         cout<<"nodo tipo:"<<node->Value<<endl;
         json dataServer;
         dataServer["type"] = "float";
@@ -28,6 +29,8 @@ public:
         dataServer["value"] = node->Right->Value;
         dataServer["size"] = 4;
         cout<<dataServer.dump()<<endl;
+        return node;
+
     }
     void Free() {
         delete this;

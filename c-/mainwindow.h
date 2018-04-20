@@ -6,6 +6,7 @@
 #include <QTextLine>
 #include <QString>
 #include <QDebug>
+
 using json = nlohmann::json;
 namespace Ui {
 class MainWindow;
@@ -43,9 +44,11 @@ private:
     void Update ();
     void TableRe (json all);
     bool Validate (json info);
+    void nextb ();
     enum Columna {
         Direction, Label, Value, Count
     };
+    //client cpa;
 };
 
 #endif // MAINWINDOW_H

@@ -5,7 +5,6 @@
 #include "astnode.h"
 #include "json.hpp"
 #include "fstream"
-//#include "client.cpp"
 
 using json = nlohmann::json;
 class doubles: public interfaces
@@ -21,7 +20,8 @@ public:
      void print(){
          cout<<"name:double "<<endl;
     }
-     void Data(astNode* node){
+
+     astNode* Data(astNode* node){
          cout<<"nodo tipo wohoo:"<<node->Value<<endl;
          json dataServer;
          dataServer["type"] = "Double";
@@ -29,7 +29,8 @@ public:
          dataServer["value"] = node->Right->Value;
          dataServer["size"] = 8;
          cout<<dataServer.dump()<<endl;
-        // Execute(dataServer.dump());
+
+        return node;
 
      }
      virtual void saveStruct(astNode* node){
@@ -43,7 +44,6 @@ public:
          dataServer["size"] = 1;
          cout<<dataServer.dump()<<endl;
          es<<dataServer<<endl;
-         //Execute(dataServer.dump());
          es.close();
      }
     void Free() {

@@ -2,7 +2,8 @@
 #include "prefix.h"
 #include "operaciones.h"
 
-Desicion::Desicion(char* text)
+
+Desicion::Desicion(char* text,int puerto)
 {
     m_Text = text;
     m_Index = 0;
@@ -12,7 +13,7 @@ Desicion::Desicion(char* text)
     }
     if(islower(m_Text[m_Index])){
         cout<<"encontro un operador"<<endl;
-        FindNextWay();
+        FindNextWay(puerto);
         return;
     }
     if(isupper(m_Text[m_Index])){
@@ -38,7 +39,7 @@ void Desicion::SkipWhiteSpaces()
     }
 }
 
-void Desicion::FindNextWay()
+void Desicion::FindNextWay(int puerto)
 {
     SkipWhiteSpaces();
     cout<<"obtener letra"<<endl;
@@ -57,7 +58,7 @@ void Desicion::FindNextWay()
         cout<<"float"<<endl;
         if(Verificar(0, buffer)){
             cout<<"se verifico"<<endl;
-            astNode* node =prefix(m_Text).ReturNode();
+            astNode* node =prefix(m_Text, puerto).ReturNode();
             break;
         }else{
             break;
@@ -68,7 +69,8 @@ void Desicion::FindNextWay()
         cout<<"double"<<endl;
         if(Verificar(1, buffer)){
             cout<<"se verifico"<<endl;
-            astNode* node =prefix(m_Text).ReturNode();
+              astNode* node =prefix(m_Text, puerto).ReturNode();
+
             break;
         }else{
             break;
@@ -78,7 +80,7 @@ void Desicion::FindNextWay()
         cout<<"int"<<endl;
         if(Verificar(2, buffer)){
             cout<<"se verifico"<<endl;
-            astNode* node =prefix(m_Text).ReturNode();
+            astNode* node =prefix(m_Text,puerto).ReturNode();
             break;
         }else{
             break;
@@ -89,7 +91,9 @@ void Desicion::FindNextWay()
         cout<<"long"<<endl;
         if(Verificar(3, buffer)){
             cout<<"se verifico"<<endl;
-            astNode* node =prefix(m_Text).ReturNode();
+
+            astNode* node =prefix(m_Text,puerto).ReturNode();
+
             break;
         }else{
             break;
@@ -102,7 +106,7 @@ void Desicion::FindNextWay()
         {
             if(Verificar(4, buffer)){
                 cout<<"se verifico"<<endl;
-                astNode* node =prefix(m_Text).ReturNode();
+                astNode* node =prefix(m_Text,puerto).ReturNode();
                 break;
             }else{
                 break;
@@ -111,7 +115,7 @@ void Desicion::FindNextWay()
             cout<<"class"<<endl;
             if(Verificar(6,buffer)){
                 cout<<"se verifico"<<endl;
-                astNode* node =prefix(m_Text).ReturNode();
+                astNode* node =prefix(m_Text, puerto).ReturNode();
                 break;
             }else{
                 break;
@@ -123,7 +127,7 @@ void Desicion::FindNextWay()
         cout<<"struct"<<endl;
         if(Verificar(5,buffer)){
             cout<<"se verifico"<<endl;
-            astNode* node =prefix(m_Text).ReturNode();
+            astNode* node =prefix(m_Text, puerto).ReturNode();
             break;
         }else{
             break;

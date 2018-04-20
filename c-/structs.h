@@ -22,7 +22,8 @@ public:
      void print(){
          cout<<"se supone que estoy en struct "<<endl;
     }
-    void Data(astNode* node){
+
+    astNode* Data(astNode* node){
         json dataServer;
         dataServer["type"] = "struct";
         dataServer["name"] = node->Left->value;
@@ -40,6 +41,7 @@ public:
         esf.close();
         cout<<"nodo tipo:"<<node->Value<<endl;
         cout<<dataServer<<endl;
+        return node;
     }
     void Free() {
         delete this;
