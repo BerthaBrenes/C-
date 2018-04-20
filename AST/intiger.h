@@ -5,6 +5,7 @@
 #include "astnodetype.h"
 #include "json.hpp"
 #include "fstream"
+//#include "client.cpp"
 using json = nlohmann::json;
 class Intiger :public interfaces
 {
@@ -26,6 +27,7 @@ public:
         dataServer["name"] = node->Left->value;
         dataServer["value"] = node->Right->Value;
         dataServer["size"] = 4;
+
         cout<<dataServer.dump()<<endl;
     }
     void Free() {

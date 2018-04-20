@@ -1,6 +1,6 @@
 #include <iostream>
 #include <signal.h>
-#include "tcpclient.cpp"
+#include <tcpclient.h>
 #include <typeinfo>
 #include "json.hpp"
 #include <string>

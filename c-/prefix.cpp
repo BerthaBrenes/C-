@@ -9,7 +9,7 @@
 #include <cstring>
 #include <sstream>
 #include <interfaces.h>
-#include <client.cpp>
+
 using namespace std;
 
 

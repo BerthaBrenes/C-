@@ -1447,7 +1447,12 @@ mainwindow.o: ../c-/mainwindow.cpp ../c-/mainwindow.h \
 		../../../Qt/5.11.0/gcc_64/include/QtGui/QTextBlock \
 		../../../Qt/5.11.0/gcc_64/include/QtGui/qtextobject.h \
 		../../../Qt/5.11.0/gcc_64/include/QtCore/QStringList \
-		../../../Qt/5.11.0/gcc_64/include/QtCore/QMutableStringListIterator
+		../../../Qt/5.11.0/gcc_64/include/QtCore/QMutableStringListIterator \
+		../c-/desicion.h \
+		../c-/astnode.h \
+		../c-/prefix.h \
+		../c-/factorydepends.h \
+		../c-/interfaces.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../c-/mainwindow.cpp
 
 codeeditor.o: ../c-/codeeditor.cpp ../c-/codeeditor.h \
@@ -1575,6 +1580,7 @@ codeeditor.o: ../c-/codeeditor.cpp ../c-/codeeditor.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o codeeditor.o ../c-/codeeditor.cpp
 
 desicion.o: ../c-/desicion.cpp ../c-/desicion.h \
+		../c-/astnode.h \
 		../c-/prefix.h \
 		../c-/factorydepends.h \
 		../c-/interfaces.h \
@@ -1582,6 +1588,7 @@ desicion.o: ../c-/desicion.cpp ../c-/desicion.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o desicion.o ../c-/desicion.cpp
 
 factorydepends.o: ../c-/factorydepends.cpp ../c-/factorydepends.h \
+		../c-/astnode.h \
 		../c-/interfaces.h \
 		../c-/doubles.h \
 		../c-/json.hpp \
@@ -1595,6 +1602,7 @@ factorydepends.o: ../c-/factorydepends.cpp ../c-/factorydepends.h \
 
 operaciones.o: ../c-/operaciones.cpp ../c-/operaciones.h \
 		../c-/prefix.h \
+		../c-/astnode.h \
 		../c-/factorydepends.h \
 		../c-/interfaces.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o operaciones.o ../c-/operaciones.cpp
@@ -1603,9 +1611,14 @@ parseoascii.o: ../c-/parseoascii.cpp ../c-/parseoascii.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o parseoascii.o ../c-/parseoascii.cpp
 
 prefix.o: ../c-/prefix.cpp ../c-/prefix.h \
+		../c-/astnode.h \
 		../c-/factorydepends.h \
 		../c-/interfaces.h \
-		../c-/parseoascii.h
+		../c-/parseoascii.h \
+		../c-/client.cpp \
+		../c-/tcpclient.cpp \
+		../c-/tcpclient.h \
+		../c-/json.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o prefix.o ../c-/prefix.cpp
 
 prueba.o: ../c-/prueba.cpp ../c-/prueba.h
