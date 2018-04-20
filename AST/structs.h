@@ -51,7 +51,7 @@ public:
         cout<<"aqui deberia tan siquiera entrar"<<endl;
 
     }
-    static interfaces* __stdcall Create(){
+    static interfaces* Create(){
         return new Structs();
     }
 };

@@ -45,7 +45,7 @@ public:
     void Free() {
         delete this;
     }
-    static interfaces* __stdcall Create(){
+    static interfaces* Create(){
         return new doubles();
     }
 };

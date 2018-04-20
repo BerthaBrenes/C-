@@ -1,5 +1,6 @@
 #ifndef INTERFACES_H
 #define INTERFACES_H
+//#define "__stdcall"
 #include "astnodetype.h"
 class interfaces{
    public:
@@ -9,6 +10,6 @@ class interfaces{
     virtual void Free() = 0;
     virtual void Data(ASTNodeType* node) =0;
     virtual void saveStruct(ASTNodeType* node) =0;
-    typedef interfaces* (__stdcall *CreateInterfaceFn)(void);
+    typedef interfaces*  CreateInterfaceFn;
 };
 #endif // INTERFACES_H

@@ -28,7 +28,6 @@ public:
         static factorydepends instance;
         return &instance;
     }
-    void Register(const double interfaceType, interfaces::CreateInterfaceFn pfnCreate);
     interfaces *CreateInterface(const ASTNodeType* interfaceType);
 };
 

@@ -14,6 +14,7 @@ ASTNodeType::ASTNodeType()
 void ASTNodeType::Print()
 {
     cout<<"Valor raiz"<< Value<<endl;
+    cout<<"Valor del tipo"<< Type<<endl;
     cout<<"Valor de izquierda"<< Left->Value<<endl;
     cout<<'aqui se escpicha'<<endl;
     if(Right->Value)

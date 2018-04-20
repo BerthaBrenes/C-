@@ -8,26 +8,47 @@
 #include "prueba.h"
 #include "interfaces.h"
 #include "astnodetype.h"
+#include "doubles.h"
+#include "chars.h"
+#include "floating.h"
+#include "intiger.h"
+#include "longer.h"
+#include "structs.h"
 
 factorydepends::factorydepends()
 {
-    Register(0,&Floating::Create);
-    Register(1, &doubles::Create);
-    Register(2,&Intiger::Create);
-    Register(3,&Longer::Create);
-    Register(4,&Chars::Create);
-    Register(5,&Structs::Create);
-    Register(6,&Structs::Create);
+
 }
-void factorydepends::Register(const double interfaceType, interfaces::CreateInterfaceFn pfnCreate){
-    m_FactoryMap[interfaceType] = pfnCreate;
-}
+
 interfaces *factorydepends::CreateInterface(const ASTNodeType* interface){
-    FactoryMap::iterator it = m_FactoryMap.find(interface->Value);
-    if(it != m_FactoryMap.end()){
-       return it->second();
+    int x = 0;
+    x = interface->Value;
+    switch (x) {
+    case 0:
+        return Floating::Create();
+        break;
+    case 1:
+        return doubles::Create();
+        break;
+    case 2:
+        return Intiger::Create();
+        break;
+    case 3:
+        return Longer::Create();
+        break;
+    case 4:
+        return Chars::Create();
+        break;
+    case 5:
+        return Structs::Create();
+        break;
+    case 6:
+        return Structs::Create();
+        break;
+    default:
+        cout<<"upsi default"<<endl;
+        break;
     }
-    return NULL;
 }
 
 

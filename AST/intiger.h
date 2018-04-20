@@ -44,7 +44,7 @@ public:
         es<<dataServer<<endl;
         es.close();
     }
-    static interfaces* __stdcall Create(){
+    static interfaces* Create(){
         return new Intiger();
     }
 };

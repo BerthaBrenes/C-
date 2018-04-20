@@ -111,9 +111,9 @@ void prefix::GetNextToken()
                     ptrDepends->saveStruct(NodoLine);
                     return;
                 }
-                if(cadena== "false"){
+                else{
                     cout<<"struc cerrado"<<endl;
-                    //NodoLine->Print();
+                    NodoLine->Print();
                     cout<<"aqui creo que no llego"<<endl;
                     interfaces *ptrDep = factorydepends::Get()->CreateInterface(NodoLine);
                     ptrDep->Data(NodoLine);
@@ -121,7 +121,8 @@ void prefix::GetNextToken()
                 }
             }
             ls.close();
-
+        }else{
+            cout<<"creo que se metio aqui porque el archivo no existe"<<endl;
         }
     }
     case '+':
@@ -242,6 +243,7 @@ int prefix::GetReference()
         cout<<"float"<<endl;
         if(Verificar(0, buffer)){
             NodoLine->Type = OperatorRef;
+            NodoLine->Value = 0.0;
             return 0;
         }else{
             break;
