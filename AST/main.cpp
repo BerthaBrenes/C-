@@ -3,7 +3,7 @@
 #include "parseoascii.h"
 #include "astnodetype.h"
 #include "desicion.h"
-#include "prueba.h"
+#include "client.cpp"
 using namespace std;
 
 int main()
@@ -12,7 +12,13 @@ int main()
     //Desicion("A = B /C;");
     //ASTNodeType* node =prefix("double Dee4 = 8;").ReturNode();
 
-
+    json J;
+    J["type"] = "char";
+    J["value"] = "strings";
+    J["label"] = "Numerod";
+    J["size"] = 1;
+    J["countr"] = 1;
+    Execute(J.dump());
    // Execute(prueba.called());
     //ASTNodeType* node =prefix("int G = 21;").ReturNode();
      //("struct {");

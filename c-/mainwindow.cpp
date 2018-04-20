@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <iostream>
-#include <client.cpp>
 #include <QInputDialog>
 #include <json.hpp>
 #include <typeinfo>
@@ -11,6 +10,8 @@
 #include <QDebug>
 #include <QWidget>
 #include <QMutableStringListIterator>
+#include "astnode.h"
+#include "desicion.h"
 using json = nlohmann::json;
 using namespace std;
 MainWindow::MainWindow(QWidget *parent) :
@@ -37,8 +38,8 @@ MainWindow::MainWindow(QWidget *parent) :
             break;
         }
     }
-    setPort(PORT);
-    Reset();
+    //cpa.setPort(PORT);
+    //cpa.Reset();
     ui->statusBar->showMessage ("Port: "+QString::number(PORT));
     }
 
@@ -112,7 +113,7 @@ void MainWindow::nextb() {
     ui -> pushButton_3->setEnabled(false);
     ui->pushButton_2->setEnabled(true);
     ui->tableWidget->setRowCount(0);
-    Reset();
+     //cpa.Reset();
 }
 void MainWindow::on_pushButton_3_pressed()
 {
@@ -123,6 +124,9 @@ void MainWindow::on_pushButton_3_pressed()
         string toparser = lin.toStdString();
         char* linea_actual = (char*)toparser.c_str();
         cout << linea_actual << endl;
+        astNode *node = Desicion(linea_actual,PORT).ReturNode();
+        cout<<"asdasdasdsa"<<node->data<<endl;
+        TableRe(node->data);
         if (lines[currentline] == "float"){
             json J;
             J["type"] = "char";
@@ -130,7 +134,7 @@ void MainWindow::on_pushButton_3_pressed()
             J["label"] = "NUMER";
             J["size"] = 1;
             J["countr"] = 1;
-            TableRe(Execute(J.dump()));
+            //TableRe(cpa.Execute(J.dump()));
 
         } else if (lines[currentline] == "int"){
             json J;
@@ -139,7 +143,7 @@ void MainWindow::on_pushButton_3_pressed()
             J["label"] = "Numerod";
             J["size"] = 1;
             J["countr"] = 1;
-            TableRe(Execute(J.dump()));
+            //TableRe( cpa.Execute(J.dump()));
         }
         else if (lines[currentline] == "double"){
                 json J;
@@ -148,7 +152,7 @@ void MainWindow::on_pushButton_3_pressed()
                 J["label"] = "Numerod";
                 J["size"] = 1;
                 J["countr"] = 1;
-                TableRe(Execute(J.dump()));
+                //TableRe( cpa.Execute(J.dump()));
 
         }
         else if (lines[currentline] == "char"){
@@ -158,11 +162,11 @@ void MainWindow::on_pushButton_3_pressed()
             J["label"] = "Numer";
             J["size"] = 1;
             J["countr"] = 1;
-            TableRe(Execute(J.dump()));
+            //TableRe( cpa.Execute(J.dump()));
 
         } else if (lines[currentline] == "Get this"){
             QString a = lines[currentline+1];
-            cout<<"Deberia servir" << Get(a.toStdString()) <<endl;
+            //cout<<"Deberia servir" <<  cpa.Get(a.toStdString()) <<endl;
         }
 
         currentline++;
@@ -190,6 +194,6 @@ void MainWindow::on_actionChange_Port_triggered()
             break;
         }
     }
-    setPort(PORT);
+     //cpa.setPort(PORT);
     ui->statusBar->showMessage ("Initialized on port: "+QString::number(PORT));
 }

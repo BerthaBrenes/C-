@@ -11,8 +11,8 @@ SOURCES += main.cpp \
     prueba.cpp \
     desicion.cpp \
     operaciones.cpp \
-    tcpclient.cpp \
-    client.cpp
+    client.cpp \
+    tcpclient.cpp
 
 HEADERS += \
     prefix.h \

@@ -1,2 +1,0 @@
-valor del nodo
-0

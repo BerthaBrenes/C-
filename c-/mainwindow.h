@@ -6,6 +6,7 @@
 #include <QTextLine>
 #include <QString>
 #include <QDebug>
+
 using json = nlohmann::json;
 namespace Ui {
 class MainWindow;
@@ -47,6 +48,7 @@ private:
     enum Columna {
         Direction, Label, Value, Count
     };
+    //client cpa;
 };
 
 #endif // MAINWINDOW_H
