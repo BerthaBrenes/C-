@@ -47,7 +47,7 @@ public:
          cout<<"nodo tipo en struct:"<<node->Value<<endl;
          json dataServer;
          dataServer["type"] = "double";
-         dataServer["name"] = node->Left->value;
+         dataServer["label"] = node->Left->value;
          dataServer["value"] = node->Right->Value;
          dataServer["size"] = 1;
          cout<<dataServer.dump()<<endl;

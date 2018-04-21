@@ -163,6 +163,7 @@ void *loop (void *m) {
                     tcp.clean();
                 } else {
                     j3["direction"] = getDirection(actual);
+                    j3["countr"] =1;
                     j3["offset"] = Current_oofset;
                     j3 = convert(j3);
 

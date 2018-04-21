@@ -26,12 +26,16 @@ public:
     ASTNodeType* Data(ASTNodeType* node){
         cout<<"nodo tipo wohoo:"<<node->Value<<endl;
         json dataServer;
-        dataServer["type"] = "Char";
+        dataServer["type"] = "char";
+        cout<<"por aqui type"<<endl;
         dataServer["label"] = node->Left->value;
+        cout<<"por aqui label"<<endl;
         dataServer["value"] = node->Right->value;
+        cout<<"por aqui value"<<endl;
         dataServer["size"] = 1;
         cout<<dataServer.dump()<<endl;
         tcp.setPort(node->puerto);
+        cout<<"se espicho el puerto"<<endl;
         node->data = tcp.Execute(dataServer.dump());
         cout<<node->data<<endl;
         ofstream es;
