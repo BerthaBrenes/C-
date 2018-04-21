@@ -42,7 +42,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //cpa.setPort(PORT);
     //cpa.Reset();
     ui->statusBar->showMessage ("Port: "+QString::number(PORT));
-    }
+}
 
 
 
@@ -75,7 +75,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_label_windowIconTextChanged(const QString &iconText)
 {
-   ui->label->setText(iconText);
+    ui->label->setText(iconText);
 }
 
 
@@ -114,7 +114,7 @@ void MainWindow::nextb() {
     ui -> pushButton_3->setEnabled(false);
     ui->pushButton_2->setEnabled(true);
     ui->tableWidget->setRowCount(0);
-     //cpa.Reset();
+    //cpa.Reset();
 }
 void MainWindow::on_pushButton_3_pressed()
 {
@@ -130,13 +130,18 @@ void MainWindow::on_pushButton_3_pressed()
         ifstream lec;
         lec.open("table.json",ios::in);
         string puta;
-            getline(lec, puta);
-            cout<<"se me olvido"<<puta<<endl;
-
+        getline(lec, puta);
+        cout<<"se me olvido"<<puta<<endl;
         cout<<"todo bien"<<node->data<<endl;
         lec.close();
-        auto j8 = json::parse(puta);
-        TableRe(j8);
+
+        if(puta.size() != 0){
+            cout<<"dirfere"<<endl;
+            auto j8 = json::parse(puta);
+            TableRe(j8);
+        }
+
+
         remove("table.json");
         if (lines[currentline] == "float"){
             json J;
@@ -157,13 +162,13 @@ void MainWindow::on_pushButton_3_pressed()
             //TableRe( cpa.Execute(J.dump()));
         }
         else if (lines[currentline] == "double"){
-                json J;
-                J["type"] = "char";
-                J["value"] = "Numer";
-                J["label"] = "Numerod";
-                J["size"] = 1;
-                J["countr"] = 1;
-                //TableRe( cpa.Execute(J.dump()));
+            json J;
+            J["type"] = "char";
+            J["value"] = "Numer";
+            J["label"] = "Numerod";
+            J["size"] = 1;
+            J["countr"] = 1;
+            //TableRe( cpa.Execute(J.dump()));
 
         }
         else if (lines[currentline] == "char"){
@@ -206,6 +211,6 @@ void MainWindow::on_actionChange_Port_triggered()
             break;
         }
     }
-     //cpa.setPort(PORT);
+    //cpa.setPort(PORT);
     ui->statusBar->showMessage ("Initialized on port: "+QString::number(PORT));
 }

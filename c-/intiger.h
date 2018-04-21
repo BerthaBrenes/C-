@@ -52,12 +52,10 @@ public:
         dataServer["type"] = "int";
         dataServer["label"] = node->Left->value;
         dataServer["value"] = node->Right->Value;
-        dataServer["size"] = 1;
+        dataServer["size"] = 4;
         dataServer["countr"] = 1;
-        cout<<dataServer.dump()<<endl;
+        cout<<dataServer<<endl;
         es<<dataServer<<endl;
-        node->data = tcp.Execute(dataServer.dump());
-
         es.close();
     }
     static interfaces* Create(){

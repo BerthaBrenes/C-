@@ -22,13 +22,18 @@ Desicion::Desicion(char* text,int puerto)
 
         return;
     }
+    if(m_Text[m_Index] == '}'){
+        cout<<"struct final"<<endl;
+        ASTNodeType* node =prefix(m_Text, puerto).ReturNode();
+        return;
+    }
 
 
 }
 
 ASTNodeType *Desicion::ReturNode()
 {
- return NodoLine;
+    return NodoLine;
 }
 
 void Desicion::SkipWhiteSpaces()
@@ -69,7 +74,7 @@ void Desicion::FindNextWay(int puerto)
         cout<<"double"<<endl;
         if(Verificar(1, buffer)){
             cout<<"se verifico"<<endl;
-              ASTNodeType* node =prefix(m_Text, puerto).ReturNode();
+            ASTNodeType* node =prefix(m_Text, puerto).ReturNode();
 
             break;
         }else{

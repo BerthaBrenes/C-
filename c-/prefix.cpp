@@ -107,8 +107,8 @@ void prefix::GetNextToken()
                 cout<<cadena<<endl;
                 if(cadena == "true"){
                     cout<<"interfaces para struct"<<endl;
-                    NodoLine->Print();
                     interfaces *ptrDepends = factorydepends::Get()->CreateInterface(NodoLine);
+                    cout<<"prueba"<<endl;
                     ptrDepends->saveStruct(NodoLine);
                     return;
                 }
@@ -118,8 +118,9 @@ void prefix::GetNextToken()
                     cout<<"aqui creo que no llego"<<endl;
                     NodoLine->puerto = m_puerto;
                     interfaces *ptrDep = factorydepends::Get()->CreateInterface(NodoLine);
+                    cout<<"no se que hagp aqio"<<endl;
                     ptrDep->Data(NodoLine);
-                    //Execute()
+                    cout<<"no se que hagp aqio"<<endl;
                     return;
                 }
             }
@@ -177,6 +178,7 @@ void prefix::GetNextToken()
         es.open("boolean.txt",ios::out);
         es<<"false"<<endl;
         es.close();
+        remove("prueba.json");
         m_crtToken.Type = ClosedCor;
         m_Index++;
         GetNextToken();
