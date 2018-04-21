@@ -27,13 +27,17 @@ public:
         cout<<"nodo tipo:"<<node->Value<<endl;
         json dataServer;
         dataServer["type"] = "long";
-        dataServer["name"] = node->Left->value;
+        dataServer["label"] = node->Left->value;
         dataServer["value"] = node->Right->Value;
         dataServer["size"] = 8;
         cout<<dataServer.dump()<<endl;
         tcp.setPort(node->puerto);
         node->data = tcp.Execute(dataServer.dump());
         cout<<node->data<<endl;
+        ofstream es;
+        es.open("table.json",ios::out);
+        es<<node->data<<endl;
+        es.close();
         return node;
 
     }

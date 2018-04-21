@@ -17,7 +17,7 @@ Desicion::Desicion(char* text,int puerto)
         return;
     }
     if(isupper(m_Text[m_Index])){
-        new Operaciones(m_Text);
+        new Operaciones(m_Text, puerto);
         cout<<"Encontro un variable"<<endl;
 
         return;

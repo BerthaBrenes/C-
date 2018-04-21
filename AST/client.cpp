@@ -1,30 +1,19 @@
-#include <iostream>
-#include <signal.h>
-#include <tcpclient.h>
-#include <typeinfo>
-#include "json.hpp"
-#include <string>
-using namespace std;
-using json = nlohmann::json;
+#include "client.h"
 
-TCPClient tcp;
-int PORT;
-bool ready = false;
-
-void sig_exit(int s)
+client::client()
 {
-    tcp.exit();
-	exit(0);
+
 }
-void setPort (int port){
-    signal(SIGINT, sig_exit);
+
+void client::setPort (int port){
+
     ready = false;
     PORT = port;
 
 }
-json Execute(string Data)
+json client::Execute(string Data)
 {
-    signal(SIGINT, sig_exit);
+
     if (ready == false) {
         tcp.setup("127.0.0.1",PORT);
         ready = true;
@@ -38,8 +27,8 @@ json Execute(string Data)
     return j3;
 
 }
-json Get (string label){
-    signal(SIGINT, sig_exit);
+json client:: Get (string label){
+
     if (ready == false) {
         tcp.setup("127.0.0.1",PORT);
         ready = true;
@@ -52,11 +41,12 @@ json Get (string label){
     return j3;
 }
 
-void Reset (){
-    signal(SIGINT, sig_exit);
+void client:: Reset (){
+
     if (ready == false) {
         tcp.setup("127.0.0.1",PORT);
         ready = true;
     }
     tcp.Send("Reset");
 }
+

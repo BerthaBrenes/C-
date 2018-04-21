@@ -2,7 +2,7 @@
 #include <iostream>
 
 using namespace std;
-Operaciones::Operaciones(const char *text)
+Operaciones::Operaciones(const char *text, int port)
 {
     cout<<"encontre una variable"<<endl;
     m_Text = text;

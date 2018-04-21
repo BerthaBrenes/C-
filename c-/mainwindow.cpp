@@ -135,9 +135,9 @@ void MainWindow::on_pushButton_3_pressed()
 
         cout<<"todo bien"<<node->data<<endl;
         lec.close();
+        //auto j8 = json::parse(puta);
+        //TableRe(j8);
         remove("table.json");
-        auto j8 = json::parse(puta);
-        TableRe(j8);
         if (lines[currentline] == "float"){
             json J;
             J["type"] = "char";

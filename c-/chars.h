@@ -6,6 +6,7 @@
 #include "json.hpp"
 #include "fstream"
 #include "client.h"
+
 using json = nlohmann::json;
 class Chars :public interfaces
 {
@@ -26,15 +27,18 @@ public:
         cout<<"nodo tipo wohoo:"<<node->Value<<endl;
         json dataServer;
         dataServer["type"] = "Char";
-        dataServer["name"] = node->Left->value;
+        dataServer["label"] = node->Left->value;
         dataServer["value"] = node->Right->value;
         dataServer["size"] = 1;
         cout<<dataServer.dump()<<endl;
         tcp.setPort(node->puerto);
         node->data = tcp.Execute(dataServer.dump());
         cout<<node->data<<endl;
+        ofstream es;
+        es.open("table.json",ios::out);
+        es<<node->data<<endl;
+        es.close();
         return node;
-
     }
     void Free() {
         delete this;

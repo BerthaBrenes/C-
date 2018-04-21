@@ -29,7 +29,7 @@ public:
     ASTNodeType* Data(ASTNodeType* node){
         json dataServer;
         dataServer["type"] = "struct";
-        dataServer["name"] = node->Left->value;
+        dataServer["label"] = node->Left->value;
         dataServer["size"] = 2;
         char cadena[128];
         ifstream ls;
@@ -47,7 +47,12 @@ public:
         tcp.setPort(node->puerto);
         node->data = tcp.Execute(dataServer.dump());
         cout<<node->data<<endl;
+        ofstream es;
+        es.open("table.json",ios::out);
+        es<<node->data<<endl;
+        es.close();
         return node;
+
     }
     void Free() {
         delete this;

@@ -1,7 +1,7 @@
 #ifndef OPERACIONES_H
 #define OPERACIONES_H
 #include "prefix.h"
-
+#include "client.cpp"
 class Operaciones
 {
     struct Token{
@@ -31,9 +31,9 @@ private:
     string to_strin(double x);
     ofstream es;
     ifstream ls;
-
+    client tcp;
 public:
-      Operaciones(const char* text);
+      Operaciones(const char* text, int port);
       ASTNodeType* ReturNode();
       Operaciones();
 };

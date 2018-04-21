@@ -1,13 +1,20 @@
 #include "operaciones.h"
 #include <iostream>
+#include "client.h"
+#include <string>
 
 using namespace std;
-Operaciones::Operaciones(char *text)
+Operaciones::Operaciones(char *text, int port)
 {
     cout<<"encontre una variable"<<endl;
     m_Text = text;
     m_Index = 0;
-    GetVariable();
+    m_Port = port;
+    tcp.setPort(port);
+    //std::string someString(text);
+    //cout<<someString<<endl;
+    //Validar(someString);
+    //GetVariable();
 }
 
 Operaciones::Operaciones()
@@ -119,10 +126,10 @@ void Operaciones::GetNextToken()
 
     }
 
-    ASTNodeType *Operaciones::Validar(char *name)
+    ASTNodeType *Operaciones::Validar(string name)
     {
         SkipWhiteSpaces();
-        //Get("name");
+        tcp.Get(name);
 
 
     }
